@@ -1,0 +1,39 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
+html {
+  font-size: 62.5%; }
+
+body {
+  box-sizing: border-box; }
+
+body {
+  font-size: 1.5rem; }
+
+h1 {
+  color: green;
+  font-size: 4rem; }
+
+.navbar {
+  display: flex;
+  background-color: orangered;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  height: 5rem; }
+  .navbar__links {
+    display: flex;
+    column-gap: 10px; }
+  .navbar__link {
+    color: white;
+    text-decoration: none; }
+    .navbar__link:hover {
+      color: lightblue; }
+
+.new-user-form {
+  display: flex;
+  flex-direction: column; }

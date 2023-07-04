@@ -1,0 +1,22 @@
+.navbar {
+	display: flex;
+	background-color: orangered;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 10px;
+	height: 5rem;
+
+	&__links {
+		display: flex;
+		column-gap: 10px;
+	}
+
+	&__link {
+		color: white;
+		text-decoration: none;
+
+		&:hover {
+			color: lightblue;
+		}
+	}
+}
