@@ -11,6 +11,8 @@ import Welcome from './features/auth/Welcome'
 import Prefetch from './features/auth/Prefetch'
 import NewUserForm from './features/users/NewUserForm'
 import "./css/styles.css"
+import NotFound from './components/NotFound'
+import EditUser from './features/users/EditUser'
 
 function App() {
 
@@ -20,19 +22,24 @@ function App() {
         <Route index element={<Public />} />
         <Route path="login" element={<LogIn />} />
         <Route path="signup" element={<SignUp />} />
+        <Route path="inbox" element={<Inbox />} />
 
 
         <Route element={<Prefetch />}>
           <Route path='dashboard' element={<Dashboard />}>
             <Route index element={<Welcome />} />
-            <Route path="inbox" element={<Inbox />} />
 
             <Route path="users">
               <Route index element={<UserList />} />
               <Route path="new" element={<NewUserForm />} />
+              <Route path="edit/:userId" element={<EditUser />} />
             </Route>
+
           </Route>
         </Route>
+
+        {/* Matches no patterns above */}
+        <Route path="*" element={<NotFound />} />
 
       </Route>
     </Routes>

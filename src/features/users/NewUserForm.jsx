@@ -64,9 +64,9 @@ const NewUserForm = () => {
           <label htmlFor='role-input'>Role: </label>
           <select id="role-input" value={role} onChange={(e) => setRole(e.target.value)}>
             <option value="">-- Select --</option>
-            <option value="client">Client</option>
-            <option value="freelancer">Freelancer</option>
-            <option value="admin">Admin</option>
+            <option value="Client">Client</option>
+            <option value="Freelancer">Freelancer</option>
+            <option value="Admin">Admin</option>
           </select>
         </div>
         <div className='btn'>
