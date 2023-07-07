@@ -32,7 +32,11 @@ const NewUserForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     console.log('submitted!')
-    await addNewUser({ username, password, firstName, lastName, role })
+    if (role) {
+      await addNewUser({ username, password, firstName, lastName, role })
+    } else {
+      alert("Role is missing")
+    }
   }
 
   return (
@@ -44,21 +48,21 @@ const NewUserForm = () => {
       >
         <div className='new-user-form__input'>
           <label htmlFor='username-input'>Username: </label>
-          <input id="username-input" value={username} type='text' onChange={(e) => setUsername(e.target.value)} />
+          <input id="username-input" value={username} type='text' onChange={(e) => setUsername(e.target.value)} required />
         </div>
 
         <div className='new-user-form__input'>
           <label htmlFor='password-input'>Password: </label>
-          <input id="password-input" value={password} type='password' onChange={(e) => setPassword(e.target.value)} />
+          <input id="password-input" value={password} type='password' onChange={(e) => setPassword(e.target.value)} required />
         </div>
 
         <div className='new-user-form__input'>
           <label htmlFor='firstName-input'>First Name: </label>
-          <input id="firstName-input" value={firstName} type='text' onChange={(e) => setFirstName(e.target.value)} />
+          <input id="firstName-input" value={firstName} type='text' onChange={(e) => setFirstName(e.target.value)} required />
         </div>
         <div className='new-user-form__input'>
           <label htmlFor='lastName-input'>Last Name: </label>
-          <input id="lastName-input" value={lastName} type='text' onChange={(e) => setLastName(e.target.value)} />
+          <input id="lastName-input" value={lastName} type='text' onChange={(e) => setLastName(e.target.value)} required />
         </div>
         <div className='new-user-form__input'>
           <label htmlFor='role-input'>Role: </label>

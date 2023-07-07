@@ -39,7 +39,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 		updateUser: builder.mutation({
 			query: (initialUserData) => ({
 				url: "/users",
-				method: "PATCH",
+				method: "PUT",
 				body: {
 					...initialUserData,
 				},
@@ -54,11 +54,25 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 			}),
 			invalidatesTags: (result, error, arg) => [{ type: "User", id: arg.id }],
 		}),
+		deleteMessage: builder.mutation({
+			query: ({ userId, messageId }) => ({
+				url: "/users/inbox",
+				method: "PATCH",
+				body: { userId, messageId },
+			}),
+			invalidatesTags: (result, error, arg) => [{ type: "User", id: arg.id }],
+		}),
 	}),
 });
 
 // RTK Query generated these reducer functions that will make queries/mutations to the API and set state.
-export const { useGetUsersQuery, useAddUserMutation, useUpdateUserMutation, useDeleteUserMutation } = usersApiSlice;
+export const {
+	useGetUsersQuery,
+	useAddUserMutation,
+	useUpdateUserMutation,
+	useDeleteUserMutation,
+	useDeleteMessageMutation,
+} = usersApiSlice;
 
 export const selectUserResult = usersApiSlice.endpoints.getUsers.select(); // get query result
 
