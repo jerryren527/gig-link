@@ -1,5 +1,5 @@
 import { apiSlice } from "../../app/api/apiSlice";
-import { logOut } from "./authSlice";
+import { logOut, setCredentials } from "./authSlice";
 
 export const authApiSlice = apiSlice.injectEndpoints({
 	// Endpoint definitions (e.g. login, sendLogout, etc.)
@@ -32,6 +32,17 @@ export const authApiSlice = apiSlice.injectEndpoints({
 				url: "/auth/refresh",
 				method: "GET",
 			}),
+			// Define RTK query's onQueryStarted(), which allows you to define logic that occurs after the request returns. In effect, whenever we do this refresh mutation, the logic defined below will also set the credentials (i.e. the access token) to the redux store state.
+			async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+				try {
+					const { data } = await queryFulfilled; // wait for request to complete, destructure 'data'
+					console.log(data);
+					const { accessToken } = data;
+					dispatch(setCredentials({ accessToken }));
+				} catch (err) {
+					console.log(err);
+				}
+			},
 		}),
 	}),
 });
