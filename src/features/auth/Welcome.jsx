@@ -3,13 +3,11 @@ import useAuth from '../../hooks/useAuth'
 import { Link } from 'react-router-dom'
 
 const Welcome = () => {
-  // const { username, role } = useAuth()
-
-
+  const { username, role } = useAuth()
   return (
     <>
-      <div>Welcome</div>
-      <p><Link to="/users">View Freelancers</Link></p>
+      <div>Welcome {username} ({role})</div>
+      <p><Link to="/dashboard/users">View Freelancers</Link></p>
     </>
 
   )
