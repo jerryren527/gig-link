@@ -41,6 +41,7 @@ const Navbar = () => {
         </div>
 
         <div className='navbar__links'>
+          <Link className="navbar__link" to='/dashboard'>Dashboard</Link>
           {!atInbox && <Link className="navbar__link" to='/dashboard/inbox'>Inbox</Link>}
           {!atLogIn && <Link className="navbar__link" to='/login'>Login</Link>}
           {!atSignUp && <Link className="navbar__link" to='/signup'>Sign Up</Link>}
