@@ -20,4 +20,5 @@ export const PROPOSAL_STATUSES = {
 export const ROLES = {
 	Client: "Client",
 	Freelancer: "Freelancer",
+	Admin: "Admin",
 };

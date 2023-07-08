@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard'
 import Welcome from './features/auth/Welcome'
 import Prefetch from './features/auth/Prefetch'
 import NewUserForm from './features/users/NewUserForm'
+import NewJobForm from './features/jobs/NewJobForm'
 import "./css/styles.css"
 import NotFound from './components/NotFound'
 import EditUser from './features/users/EditUser'
@@ -16,6 +17,7 @@ import JobsList from './features/jobs/JobsList'
 import PersistLogin from './features/auth/PersistLogin'
 import Inbox from './features/inbox/Inbox'
 import NewMessageForm from './features/inbox/NewMessageForm'
+import EditJobForm from './features/jobs/EditJobForm'
 
 function App() {
 
@@ -42,6 +44,8 @@ function App() {
 
               <Route path="jobs">
                 <Route index element={<JobsList />} />
+                <Route path="new" element={<NewJobForm />} />
+                <Route path="edit/:jobId" element={<EditJobForm />} />
               </Route>
 
             </Route>
