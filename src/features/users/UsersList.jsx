@@ -1,37 +1,67 @@
+import { Link } from "react-router-dom";
 import { ROLES } from "../../config/constants";
 import { useGetUsersQuery } from "./usersApiSlice";
+import useAuth from "../../hooks/useAuth";
 
 const UserList = () => {
-	const { data: users, isLoading, isSuccess, isError, error } = useGetUsersQuery(undefined, {
-		pollingInterval: 60000,	// 60 seconds requery the data.
-		refetchOnFocus: true,	// if re-focusing on browser window, refetch data
-		refetchOnMountOrArgChange: true	// refetch the data when component is re-mounted
+	const { role } = useAuth();
+	const {
+		data: users,
+		isLoading,
+		isSuccess,
+		isError,
+		error,
+	} = useGetUsersQuery(undefined, {
+		pollingInterval: 30000, // 60 seconds requery the data.
+		refetchOnFocus: true, // if re-focusing on browser window, refetch data
+		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
 	});
-	console.log("🚀 ~ file: UsersList.jsx:5 ~ UserList ~ users:", users)
+	console.log("🚀 ~ file: UsersList.jsx:5 ~ UserList ~ users:", users);
+
+	let filteredUsers;
+	// Client will only see freelancers
+	// Freelancers and Admin can see clients and freelancers
+	if (role === ROLES.Client) {
+		filteredUsers = users?.ids.filter((id) => users.entities[id].role === ROLES.Freelancer);
+	} else if (role === ROLES.Freelancer) {
+		filteredUsers = users?.ids.filter(
+			(id) => users.entities[id].role === ROLES.Freelancer || users.entities[id].role === ROLES.Client
+		);
+	} else {
+		filteredUsers = users?.ids;
+	}
+
+	let header;
+	if (role === ROLES.Client) {
+		header = <h2>All Freelancers</h2>;
+	} else if (role === ROLES.Freelancer) {
+		header = <h2>All Clients and Freelancers</h2>;
+	} else {
+		header = <h2>All Users</h2>;
+	}
 
 	return (
 		<>
-			<h2>All Frelancers</h2>
+			{header}
 			<div>
-				{users && users.ids.map(id => {
-					const user = users.entities[id].role === ROLES.Freelancer ? users.entities[id] : null
+				{filteredUsers &&
+					filteredUsers?.map((id) => {
+						const user = users.entities[id];
 
-					return (
-						user && (
-							<div key={user.id}>
-								<p>{user.username}</p>
-								<p>{user.role}</p>
-								<hr />
-							</div>
-						)
-					)
-
-				})}
+						return (
+							user && (
+								<div key={user.id}>
+									{}
+									<Link to={`profile/${user.id}`}>{user.username}</Link>
+									<p>{user.role}</p>
+									<hr />
+								</div>
+							)
+						);
+					})}
 			</div>
 		</>
 	);
-
-}
-
+};
 
 export default UserList;
