@@ -129,10 +129,10 @@ const JobsList = () => {
 									<p>{JSON.stringify(job.proposals)}</p>
 
 									{role !== ROLES.Freelancer && <Link to={`/dashboard/jobs/edit/${job.id}`}>Edit Job</Link>}
-									{role === ROLES.Freelancer && job.proposals.includes(username) && (
+									{role === ROLES.Freelancer && job?.proposals?.includes(username) && (
 										<button onClick={() => handleDeleteProposal(job.id, username)}>Delete Proposal</button>
 									)}
-									{role === ROLES.Freelancer && !job.proposals.includes(username) && (
+									{role === ROLES.Freelancer && !job?.proposals?.includes(username) && (
 										<button onClick={() => handleAddProposal(job.id, username)}>Add Proposal</button>
 									)}
 
