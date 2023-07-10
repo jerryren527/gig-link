@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { selectJobById, useUpdateJobMutation } from "./jobsApiSlice";
 import { formatDateForInput } from "../../config/utils";
 import { JOB_STATUSES } from "../../config/constants";
+import { useGetUsersQuery } from "../users/usersApiSlice";
 
 const EditJobForm = () => {
 	const { jobId } = useParams();
@@ -25,6 +26,12 @@ const EditJobForm = () => {
 	const navigate = useNavigate();
 
 	const [updateJob, { isLoading, isSuccess, isError, error }] = useUpdateJobMutation();
+
+	const { data: users } = useGetUsersQuery(undefined, {
+		pollingInterval: 15000,
+		refetchOnFocus: true, // if re-focusing on browser window, refetch data
+		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
+	});
 
 	// This way will avoid the "more hooks during previous render" error message
 	useEffect(() => {
@@ -129,14 +136,19 @@ const EditJobForm = () => {
 						{proposals?.length === 0 ? (
 							<h4>No proposals yet!</h4>
 						) : (
-							proposals?.map((proposal, index) => (
-								<>
-									<Link key={index} to={`dashboard/users/${proposal}`}>
-										{proposal}
-									</Link>
-									<br />
-								</>
-							))
+							proposals?.map((proposal, index) => {
+								// 'proposal' is username. Find userId from username.
+								const freelancerId = users?.ids.find((userId) => users?.entities[userId].username === proposal);
+
+								return (
+									<>
+										<Link key={index} to={`../../users/profile/${freelancerId}`}>
+											{proposal}
+										</Link>
+										<br />
+									</>
+								);
+							})
 						)}
 					</div>
 				</div>
