@@ -20,6 +20,10 @@ import NewMessageForm from "./features/inbox/NewMessageForm";
 import EditJobForm from "./features/jobs/EditJobForm";
 import ProposalsList from "./features/proposals/ProposalsList";
 import ActiveJobsList from "./components/ActiveJobsList";
+import UserProfile from "./features/users/UserProfile";
+import ReviewsList from "./features/reviews/ReviewsList";
+import RequestList from "./features/requests/RequestList";
+import NewRequestForm from "./features/requests/NewRequestForm";
 
 function App() {
 	return (
@@ -39,6 +43,7 @@ function App() {
 							<Route path="users">
 								<Route index element={<UserList />} />
 								<Route path="new" element={<NewUserForm />} />
+								<Route path="profile/:userId" element={<UserProfile />} />
 								<Route path="edit/:userId" element={<EditUser />} />
 							</Route>
 
@@ -52,6 +57,15 @@ function App() {
 							<Route path="proposals">
 								<Route index element={<ProposalsList />} />
 							</Route>
+
+							<Route path="requests">
+								<Route index element={<RequestList />} />
+								<Route path="new" element={<NewRequestForm />} />
+							</Route>
+
+							{/* <Route path="reviews">
+								<Route index element={<ReviewsList />} />
+							</Route> */}
 						</Route>
 					</Route>
 				</Route>

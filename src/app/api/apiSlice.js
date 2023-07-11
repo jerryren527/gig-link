@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { setCredentials } from "../../features/auth/authSlice";
 
 // Each api request will include cookies and authorization header that includes
 const baseQuery = fetchBaseQuery({

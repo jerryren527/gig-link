@@ -2,9 +2,12 @@ import { Link } from "react-router-dom";
 import { ROLES } from "../../config/constants";
 import { useGetUsersQuery } from "./usersApiSlice";
 import useAuth from "../../hooks/useAuth";
+import { useState } from "react";
 
 const UserList = () => {
 	const { role } = useAuth();
+	const [searchInput, setSearchInput] = useState("");
+
 	const {
 		data: users,
 		isLoading,
@@ -31,6 +34,11 @@ const UserList = () => {
 		filteredUsers = users?.ids;
 	}
 
+	// filter by search Input
+	if (searchInput.length > 0) {
+		filteredUsers = filteredUsers?.filter((userId) => users?.entities[userId].username.match(searchInput));
+	}
+
 	let header;
 	if (role === ROLES.Client) {
 		header = <h2>All Freelancers</h2>;
@@ -43,6 +51,13 @@ const UserList = () => {
 	return (
 		<>
 			{header}
+			<input
+				type="search"
+				placeholder="Search here"
+				onChange={(e) => setSearchInput(e.target.value)}
+				value={searchInput}
+			/>
+
 			<div>
 				{filteredUsers &&
 					filteredUsers?.map((id) => {

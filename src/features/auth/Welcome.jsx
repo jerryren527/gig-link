@@ -18,7 +18,7 @@ const Welcome = () => {
 	return (
 		<>
 			<div>
-				Welcome {username} ({role})
+				Welcome {username} ({role}) (id: {id})
 			</div>
 			<p>
 				<Link to="/dashboard/users">{linkText}</Link>
@@ -39,11 +39,6 @@ const Welcome = () => {
 					<Link to="/dashboard/jobs">View My Open Jobs</Link>
 				</p>
 			)}
-			{role === ROLES.Client && (
-				<p>
-					<Link to="/dashboard/reviews">View My Posted Reviews</Link>
-				</p>
-			)}
 			{role === ROLES.Freelancer && (
 				<p>
 					<Link to="/dashboard/jobs/active">View My Active Jobs</Link>
@@ -59,6 +54,9 @@ const Welcome = () => {
 					<Link to={`/dashboard/users/profile/${id}`}>View My Profile</Link>
 				</p>
 			)}
+			<p>
+				<Link to={`/dashboard/requests`}>View My Requests</Link>
+			</p>
 		</>
 	);
 };
