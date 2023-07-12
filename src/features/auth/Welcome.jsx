@@ -54,9 +54,11 @@ const Welcome = () => {
 					<Link to={`/dashboard/users/profile/${id}`}>View My Profile</Link>
 				</p>
 			)}
-			<p>
-				<Link to={`/dashboard/requests`}>View My Requests</Link>
-			</p>
+			{(role === ROLES.Freelancer || role === ROLES.Client) && (
+				<p>
+					<Link to={`/dashboard/requests`}>View My Requests</Link>
+				</p>
+			)}
 		</>
 	);
 };

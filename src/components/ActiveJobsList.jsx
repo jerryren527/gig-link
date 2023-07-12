@@ -37,11 +37,11 @@ const ActiveJobsList = () => {
 					return (
 						<div className="active-jobs" key={index}>
 							<div className="active-job">
+								<p>Job Id: {job.id}</p>
 								<p>{job.title}</p>
 								<p>{job.description}</p>
-								<p>{job.clientUserName}</p>
+								<p>Client Username: {job.clientUsername}</p>
 								<p>{job.status}</p>
-								<p>{job.id}</p>
 								<hr />
 							</div>
 						</div>

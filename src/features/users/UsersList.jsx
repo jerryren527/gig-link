@@ -51,12 +51,21 @@ const UserList = () => {
 	return (
 		<>
 			{header}
-			<input
-				type="search"
-				placeholder="Search here"
-				onChange={(e) => setSearchInput(e.target.value)}
-				value={searchInput}
-			/>
+			{role === ROLES.Admin && (
+				<div>
+					<Link to={`/dashboard/users/new`}>Add User</Link>
+				</div>
+			)}
+			<div>
+				<input
+					type="search"
+					placeholder="Search here"
+					onChange={(e) => setSearchInput(e.target.value)}
+					value={searchInput}
+				/>
+			</div>
+			<br />
+			<hr />
 
 			<div>
 				{filteredUsers &&
