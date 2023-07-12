@@ -24,48 +24,60 @@ import UserProfile from "./features/users/UserProfile";
 import ReviewsList from "./features/reviews/ReviewsList";
 import RequestList from "./features/requests/RequestList";
 import NewRequestForm from "./features/requests/NewRequestForm";
+import RequireAuth from "./features/auth/RequireAuth";
+import { ROLES } from "./config/constants";
 
 function App() {
 	return (
 		<Routes>
 			<Route path="/" element={<Layout />}>
+				{/* public routes */}
 				<Route index element={<Public />} />
 				<Route path="login" element={<LogIn />} />
 				<Route path="signup" element={<SignUp />} />
 
+				{/* protected routes */}
 				<Route element={<PersistLogin />}>
-					<Route element={<Prefetch />}>
-						<Route path="dashboard" element={<Dashboard />}>
-							<Route index element={<Welcome />} />
-							<Route path="inbox" element={<Inbox />} />
-							<Route path="inbox/new" element={<NewMessageForm />} />
+					<Route element={<RequireAuth allowedRoles={[...Object.values(ROLES)]} />}>
+						<Route element={<Prefetch />}>
+							<Route path="dashboard" element={<Dashboard />}>
+								<Route index element={<Welcome />} />
+								<Route path="inbox" element={<Inbox />} />
+								<Route path="inbox/new" element={<NewMessageForm />} />
 
-							<Route path="users">
-								<Route index element={<UserList />} />
-								<Route path="new" element={<NewUserForm />} />
-								<Route path="profile/:userId" element={<UserProfile />} />
-								<Route path="edit/:userId" element={<EditUser />} />
+								<Route path="users">
+									<Route index element={<UserList />} />
+									<Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
+										<Route path="new" element={<NewUserForm />} />
+										<Route path="edit/:userId" element={<EditUser />} />
+									</Route>
+									<Route path="profile/:userId" element={<UserProfile />} />
+								</Route>
+
+								<Route path="jobs">
+									<Route index element={<JobsList />} />
+									<Route element={<RequireAuth allowedRoles={[ROLES.Client]} />}>
+										<Route path="new" element={<NewJobForm />} />
+										<Route path="edit/:jobId" element={<EditJobForm />} />
+									</Route>
+									<Route element={<RequireAuth allowedRoles={[ROLES.Freelancer]} />}>
+										<Route path="active" element={<ActiveJobsList />} />
+									</Route>
+								</Route>
+
+								<Route element={<RequireAuth allowedRoles={[ROLES.Freelancer]} />}>
+									<Route path="proposals">
+										<Route index element={<ProposalsList />} />
+									</Route>
+								</Route>
+
+								<Route element={<RequireAuth allowedRoles={[ROLES.Client, ROLES.Freelancer]} />}>
+									<Route path="requests">
+										<Route index element={<RequestList />} />
+										<Route path="new" element={<NewRequestForm />} />
+									</Route>
+								</Route>
 							</Route>
-
-							<Route path="jobs">
-								<Route index element={<JobsList />} />
-								<Route path="new" element={<NewJobForm />} />
-								<Route path="active" element={<ActiveJobsList />} />
-								<Route path="edit/:jobId" element={<EditJobForm />} />
-							</Route>
-
-							<Route path="proposals">
-								<Route index element={<ProposalsList />} />
-							</Route>
-
-							<Route path="requests">
-								<Route index element={<RequestList />} />
-								<Route path="new" element={<NewRequestForm />} />
-							</Route>
-
-							{/* <Route path="reviews">
-								<Route index element={<ReviewsList />} />
-							</Route> */}
 						</Route>
 					</Route>
 				</Route>
