@@ -3,8 +3,10 @@ import useAuth from "../../hooks/useAuth";
 import { useGetUsersQuery } from "../users/usersApiSlice";
 import { useGetRequestsQuery, useUpdateRequestStatusMutation } from "./requestsApiSlice";
 import { REQUEST_STATUSES, ROLES } from "../../config/constants";
+import useTitle from "../../hooks/useTitle";
 
 const RequestList = () => {
+	useTitle(`Gig-Link | Requests`);
 	const { id, username, role } = useAuth(); // logged in user. Must be Freelancer
 
 	const {
@@ -45,6 +47,7 @@ const RequestList = () => {
 		console.log("🚀 ~ file: RequestList.jsx:36 ~ handleEditStatus ~ status:", status);
 		console.log("🚀 ~ file: RequestList.jsx:36 ~ handleEditStatus ~ requestId:", requestId);
 		await updateRequestStatus({ requestId, status });
+		refetchRequests();
 		refetch();
 	};
 
@@ -64,7 +67,7 @@ const RequestList = () => {
 									<p>{request?.description}</p>
 									<p>{request?.price}</p>
 									<p>{request?.status}</p>
-									{request?.status === REQUEST_STATUSES.Pending && (
+									{request?.status === REQUEST_STATUSES.Pending && role === ROLES.Freelancer && (
 										<div>
 											<button
 												className="btn--accept"
