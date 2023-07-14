@@ -3,8 +3,10 @@ import { ROLES } from "../../config/constants";
 import { useGetUsersQuery } from "./usersApiSlice";
 import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
+import useTitle from "../../hooks/useTitle";
 
 const UserList = () => {
+	useTitle(`Gig-Link | Users`);
 	const { role } = useAuth();
 	const [searchInput, setSearchInput] = useState("");
 

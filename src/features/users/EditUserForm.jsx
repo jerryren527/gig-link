@@ -1,16 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDeleteUserMutation, useUpdateUserMutation } from "./usersApiSlice";
 import useAuth from "../../hooks/useAuth";
+import { ROLES } from "../../config/constants";
 
 const EditUserForm = ({ user }) => {
 	const [username, setUsername] = useState(user.username);
 	const [password, setPassword] = useState("");
 	const [firstName, setFirstName] = useState(user.firstName);
 	const [lastName, setLastName] = useState(user.lastName);
-	const [skills, setSkills] = useState(user.skills.join(", "));
+	const [skills, setSkills] = useState(user.skills);
 	const [role, setRole] = useState(user.role);
 
+	console.log("🚀 ~ file: EditUserForm.jsx:13 ~ EditUserForm ~ skills:", skills);
+	console.log("🚀 ~ file: EditUserForm.jsx:13 ~ EditUserForm ~ typeof skills:", typeof skills);
 	const navigate = useNavigate();
 	const { id } = useAuth();
 
@@ -84,12 +87,12 @@ const EditUserForm = ({ user }) => {
 					<input id="lastName-input" value={lastName} type="text" onChange={(e) => setLastName(e.target.value)} />
 				</div>
 
-				<div className="edit-user-form__input">
+				<div className="edit-user-form__input" hidden={role !== ROLES.Freelancer}>
 					<label htmlFor="skills-input">Skills: </label>
 					<input id="skills-input" value={skills} type="text" onChange={(e) => setSkills(e.target.value)} />
 				</div>
 
-				<div className="edit-user-form__input">
+				<div className="edit-user-form__input" hidden={role !== ROLES.Admin}>
 					<label htmlFor="role-input">Role: </label>
 					<select id="role-input" value={role} onChange={(e) => setRole(e.target.value)}>
 						<option value="">-- Select --</option>
@@ -107,4 +110,5 @@ const EditUserForm = ({ user }) => {
 	);
 };
 
-export default EditUserForm;
+const memoizedEditUserForm = memo(EditUserForm);
+export default memoizedEditUserForm;

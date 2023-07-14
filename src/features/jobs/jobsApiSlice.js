@@ -8,10 +8,12 @@ const initialState = jobsAdapter.getInitialState();
 export const jobsApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getJobs: builder.query({
-			query: () => "/jobs",
-			validateStatus: (response, result) => {
-				return response.status === 200 && !result.isError;
-			},
+			query: () => ({
+				url: "/jobs", // define the url endpoint
+				validateStatus: (response, result) => {
+					return response.status === 200 && !result.isError;
+				},
+			}),
 			transformResponse: (responseData) => {
 				const loadedJobs = responseData.map((job) => {
 					job.id = job._id;

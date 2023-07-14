@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useAddUserMutation } from "./usersApiSlice";
+import useTitle from "../../hooks/useTitle";
 
 const NewUserForm = () => {
+	useTitle(`Gig-Link | New User`);
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [firstName, setFirstName] = useState("");

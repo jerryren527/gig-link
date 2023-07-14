@@ -3,7 +3,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDeleteUserMutation, useGetUsersQuery, useUpdateUserMutation } from "./usersApiSlice";
 import EditUserForm from "./EditUserForm";
 
+import PulseLoader from "react-spinners/PulseLoader";
+import useTitle from "../../hooks/useTitle";
+
 const EditUser = () => {
+	useTitle(`Gig-Link | Edit User`);
 	const { userId } = useParams();
 
 	// First arg is a unique key used to cache this paritcular query result in the redux store. Wehen the same request is made, RTK Query will check if data for this query already exists in the redux store by looking up this unique key. If data exists, use the cached data instead of making a new API call.
@@ -18,7 +22,7 @@ const EditUser = () => {
 	});
 
 	if (!user) {
-		return <h2>Loading...</h2>;
+		return <PulseLoader color="#FFF" />;
 	}
 
 	let content = <EditUserForm user={user} />;

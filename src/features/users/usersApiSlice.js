@@ -8,10 +8,13 @@ const initialState = usersAdapter.getInitialState();
 export const usersApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getUsers: builder.query({
-			query: () => "/users", // define the url endpoint
-			validateStatus: (response, result) => {
-				return response.status === 200 && !result.isError;
-			},
+			query: () => ({
+				url: "/users", // define the url endpoint
+				validateStatus: (response, result) => {
+					// Here, if the backend api encounters an unexpected error during this query, this validateStatus code will handle it here. Note that we are checking 'isError', which we explicitly set in the response object sent by our custom errorHandler middleware.
+					return response.status === 200 && !result.isError;
+				},
+			}),
 			transformResponse: (responseData) => {
 				// transforms raw api response before updating the store state.
 				const loadedUsers = responseData.map((user) => {

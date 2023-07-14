@@ -32,6 +32,7 @@ const ActiveJobsList = () => {
 
 	return (
 		<>
+			<h2>My Active Jobs</h2>
 			{myActiveJobs?.length > 0 ? (
 				myActiveJobs?.map((job, index) => {
 					return (

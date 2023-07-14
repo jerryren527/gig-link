@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useAddMessageMutation } from "../messages/messagesApiSlice";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import useTitle from "../../hooks/useTitle";
 
 const NewMessageForm = () => {
+	useTitle(`Gig-Link | New Message`);
 	const { username } = useAuth();
 
 	const [title, setTitle] = useState("");

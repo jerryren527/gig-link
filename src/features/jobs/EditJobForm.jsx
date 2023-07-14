@@ -5,8 +5,10 @@ import { selectJobById, useUpdateJobMutation } from "./jobsApiSlice";
 import { formatDateForInput } from "../../config/utils";
 import { JOB_STATUSES } from "../../config/constants";
 import { useGetUsersQuery } from "../users/usersApiSlice";
+import useTitle from "../../hooks/useTitle";
 
 const EditJobForm = () => {
+	useTitle(`Gig-Link | Edit Job`);
 	const { jobId } = useParams();
 
 	// const message = useSelector(state => selectMessageById(state, id))

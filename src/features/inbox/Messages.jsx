@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { selectMessageById, useGetMessagesQuery } from "../messages/messagesApiSlice";
 import { selectUserById, useDeleteMessageMutation } from "../users/usersApiSlice";
 import useAuth from "../../hooks/useAuth";
+import { memo } from "react";
 
 const Messages = ({ messages }) => {
 	// use RTK Query generated hooks instead of generated selectors. selectors are selecting nothing sometimes.
@@ -37,4 +38,6 @@ const Messages = ({ messages }) => {
 	return <div>{content}</div>;
 };
 
-export default Messages;
+// Create a memoized Note. This Note component will only re-render if there are any changes to the data -- if the prop passed into it changes.
+const memoizedMessages = memo(Messages);
+export default memoizedMessages;

@@ -10,8 +10,10 @@ import {
 	useDeleteProposalMutation,
 	useGetProposalsQuery,
 } from "../proposals/proposalsApiSlice";
+import useTitle from "../../hooks/useTitle";
 
 const JobsList = () => {
+	useTitle(`Gig-Link | Jobs`);
 	// const jobs = useSelector(selectAllJobs)
 	const { id: userId, username, role } = useAuth();
 

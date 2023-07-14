@@ -8,10 +8,12 @@ const initialState = reviewsAdapter.getInitialState();
 export const reviewsApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getReviews: builder.query({
-			query: () => "/reviews", // define the url endpoint
-			validateStatus: (response, result) => {
-				return response.status === 200 && !result.isError;
-			},
+			query: () => ({
+				url: "/reviews", // define the url endpoint
+				validateStatus: (response, result) => {
+					return response.status === 200 && !result.isError;
+				},
+			}),
 			transformResponse: (responseData) => {
 				// transforms raw api response before updating the store state.
 				const loadedReviews = responseData.map((review) => {
