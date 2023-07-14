@@ -6,11 +6,14 @@ import { ROLES } from "../../config/constants";
 import { useAddReviewMutation, useDeleteReviewMutation, useGetReviewsQuery } from "../reviews/reviewsApiSlice";
 import { useAddRequestMutation, useGetRequestsQuery } from "../requests/requestsApiSlice";
 import NewRequestForm from "../requests/NewRequestForm";
+import useTitle from "../../hooks/useTitle";
 
 const UserProfile = () => {
 	const { userId } = useParams(); // profile user id
 	// const { userId } = useParams();
 	const { id, username, role } = useAuth(); // logged in user
+
+	useTitle(`Profile | ${username}`);
 
 	const {
 		data: users,
@@ -18,6 +21,7 @@ const UserProfile = () => {
 		isSuccess,
 		isError,
 		error,
+		refetch: refetchUsers,
 	} = useGetUsersQuery(undefined, {
 		pollingInterval: 30000, // 60 seconds requery the data.
 		refetchOnFocus: true, // if re-focusing on browser window, refetch data
@@ -54,6 +58,7 @@ const UserProfile = () => {
 		console.log("add review clicked! ");
 		await addReview({ client, freelancer, review, rating });
 		refetch();
+		refetchUsers();
 	};
 
 	const handleDeleteReview = async (reviewId) => {
@@ -61,6 +66,7 @@ const UserProfile = () => {
 		console.log("🚀 ~ file: UserProfile.jsx:53 ~ handleDeleteReview ~ reviewId:", reviewId);
 		await deleteReview({ reviewId });
 		refetch();
+		refetchUsers();
 	};
 
 	// const user = users?.entities[userId];
@@ -79,8 +85,9 @@ const UserProfile = () => {
 		const freelancerReviewId = reviews?.ids.find((reviewId) => {
 			const review = reviews?.entities[reviewId];
 			console.log("🚀 ~ file: UserProfile.jsx:52 ~ freelancerReview ~ review:", review);
-			return review.client === id;
+			return review.client === id && review.freelancer === userId;
 		});
+		console.log("🚀 ~ file: UserProfile.jsx:87 ~ freelancerReviewId ~ freelancerReviewId:", freelancerReviewId);
 		if (!freelancerReviewId) {
 			reviewContainer = (
 				<form onSubmit={handleAddReview}>
@@ -160,16 +167,36 @@ const UserProfile = () => {
 		);
 	}
 
+	const handleDelteUser = () => {
+		console.log("deleted user!");
+	};
+
 	return (
 		<>
 			<h2>User Profile</h2>
-			{profileUser?.role === ROLES.Freelancer && <h3>{`Rating: ${profileUser?.overallRating} out of 5`}</h3>}
+			<div hidden={role !== ROLES.Admin}>
+				<button className="btn--delete" onClick={handleDelteUser}>
+					Delete User
+				</button>
+			</div>
+			{profileUser?.role === ROLES.Freelancer && profileUser?.overallRating ? (
+				<h3>{`Rating: ${profileUser?.overallRating} out of 5`}</h3>
+			) : (
+				<h3>&nbsp;</h3>
+			)}
+			{profileUser?.freelancerReviews?.length > 0 ? (
+				<h3>{`${profileUser?.freelancerReviews?.length} review(s)`}</h3>
+			) : (
+				<h3>{`Be the first to review ${profileUser?.username}`}</h3>
+			)}
 			<p>userId: {userId}</p>
 			<p>username: {profileUser?.username}</p>
 			<p>firstName: {profileUser?.firstName}</p>
 			<p>lastName: {profileUser?.lastName}</p>
 			<p>role: {profileUser?.role}</p>
-			<p>skills: {profileUser?.skills.length > 0 ? profileUser.skills.join(", ") : "None"}</p>
+			<p hidden={role !== ROLES.Freelancer}>
+				skills: {profileUser?.skills.length > 0 ? profileUser.skills.join(", ") : "None"}
+			</p>
 			<br />
 			<hr />
 			{id === userId && <Link to={`../edit/${userId}`}>Edit Profile</Link>}
@@ -206,7 +233,7 @@ const UserProfile = () => {
 					);
 				})}
 			{role === ROLES.Client && profileUser?.role === ROLES.Freelancer && (
-				<NewRequestForm client={id} freelancer={profileUser?.id} />
+				<NewRequestForm client={id} freelancer={profileUser?.id} refetchRequests={refetchRequests} />
 			)}
 		</>
 	);
