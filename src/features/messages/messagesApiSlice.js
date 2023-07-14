@@ -8,10 +8,12 @@ const initialState = messagesAdapter.getInitialState();
 export const messagesApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getMessages: builder.query({
-			query: () => "/messages", // define the url endpoint
-			validateStatus: (response, result) => {
-				return response.status === 200 && !result.isError;
-			},
+			query: () => ({
+				url: "/messages", // define the url endpoint
+				validateStatus: (response, result) => {
+					return response.status === 200 && !result.isError;
+				},
+			}),
 			transformResponse: (responseData) => {
 				// transforms raw api response before updating the store state.
 				const loadedMessagess = responseData.map((message) => {

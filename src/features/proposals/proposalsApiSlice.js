@@ -8,10 +8,12 @@ const initialState = proposalsAdapter.getInitialState();
 export const proposalsApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getProposals: builder.query({
-			query: () => "/proposals",
-			validateStatus: (response, result) => {
-				return response.status === 200 && !result.isError;
-			},
+			query: () => ({
+				url: "/proposals", // define the url endpoint
+				validateStatus: (response, result) => {
+					return response.status === 200 && !result.isError;
+				},
+			}),
 			transformResponse: (responseData) => {
 				const loadedProposals = responseData.map((proposal) => {
 					proposal.id = proposal._id;

@@ -2,8 +2,11 @@ import React from "react";
 import useAuth from "../../hooks/useAuth";
 import { useSelector } from "react-redux";
 import { useGetProposalsQuery } from "./proposalsApiSlice";
+import { useGetJobsQuery } from "../jobs/jobsApiSlice";
+import useTitle from "../../hooks/useTitle";
 
 const ProposalsList = () => {
+	useTitle(`Gig-Link | Proposals`);
 	const { id, username, role } = useAuth();
 
 	const {
@@ -14,7 +17,13 @@ const ProposalsList = () => {
 		error,
 		refetch,
 	} = useGetProposalsQuery(undefined, {
-		pollingInterval: 15000, // 30 seconds requery the data.
+		pollingInterval: 30000, // 30 seconds requery the data.
+		refetchOnFocus: true, // if re-focusing on browser window, refetch data
+		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
+	});
+
+	const { data: jobs } = useGetJobsQuery(undefined, {
+		pollingInterval: 30000, // 30 seconds requery the data.
 		refetchOnFocus: true, // if re-focusing on browser window, refetch data
 		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
 	});
@@ -44,6 +53,13 @@ const ProposalsList = () => {
 							<p>{item.freelancerUsername}</p>
 							<p>{item.status}</p>
 							<p>JobId:{item.jobId}</p>
+							{jobs?.entities[item?.jobId] && (
+								<>
+									<p>Job Title: {jobs?.entities[item?.jobId].title}</p>
+									<p>Job Description: {jobs?.entities[item?.jobId].description}</p>
+									<p>Client Username: {jobs?.entities[item?.jobId].clientUsername}</p>
+								</>
+							)}
 							<hr />
 						</div>
 					))
