@@ -9,7 +9,9 @@ html {
   font-size: 62.5%; }
 
 body {
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
+  background-color: #fcfcfc; }
 
 body {
   font-size: 1.5rem; }
@@ -18,22 +20,197 @@ h1 {
   color: green;
   font-size: 4rem; }
 
+.messages {
+  display: flex;
+  justify-content: space-between; }
+  .messages > div {
+    flex: 1; }
+  .messages > div:nth-child(1) {
+    border-right: 2px solid grey; }
+
+.btn {
+  background-color: #1dbf73;
+  color: #fcfcfc;
+  font-size: 200;
+  padding: 1.3rem 2.5rem;
+  border-radius: 0.4rem; }
+  .btn--delete {
+    margin-top: 1rem;
+    background-color: #fafafa;
+    color: #74767e; }
+
+.link {
+  color: #1dbf73;
+  font-size: 1.5rem;
+  display: inline-block;
+  text-decoration: none;
+  margin-top: 1rem; }
+
+.link-btn {
+  background-color: #1dbf73;
+  color: #fcfcfc;
+  padding: 1rem 1.5rem;
+  font-size: 1.5rem;
+  border-radius: 0.4rem;
+  display: inline-block;
+  text-decoration: none;
+  margin-top: 1rem; }
+
+.search-bar {
+  margin: 1rem 1rem; }
+
+.table td {
+  padding: 1rem;
+  border: 2px solid black; }
+
+.auth-page {
+  margin: 0 auto;
+  width: 60%;
+  box-shadow: 0 0.1rem 0.1rem rgba(17, 17, 17, 0.2);
+  padding: 1rem;
+  margin-top: 2rem; }
+  .auth-page__header {
+    margin-bottom: 1rem; }
+  .auth-page .auth-form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem; }
+    .auth-page .auth-form__input {
+      display: flex;
+      flex-direction: column; }
+      .auth-page .auth-form__input input {
+        height: 3rem; }
+    .auth-page .auth-form__button {
+      align-self: flex-end; }
+
+.star {
+  color: #ffb33e; }
+
+.star--filled {
+  color: #ffb33e; }
+
+.review-form-container {
+  background-color: #fafafa;
+  margin: 1rem 0;
+  padding: 1rem;
+  box-shadow: 0 0.1rem 0.1rem rgba(17, 17, 17, 0.2);
+  width: 60%; }
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem; }
+  .review-form__input {
+    display: flex;
+    flex-direction: column; }
+    .review-form__input input {
+      height: 3rem; }
+
+.new-request-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem; }
+  .new-request-form__input {
+    display: flex;
+    flex-direction: column; }
+    .new-request-form__input input {
+      height: 3rem; }
+
 .navbar {
   display: flex;
-  background-color: orangered;
+  background-color: #fcfcfc;
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
-  height: 5rem; }
+  height: 5rem;
+  box-shadow: 0 0.1rem 0.1rem rgba(17, 17, 17, 0.2); }
   .navbar__links {
     display: flex;
     column-gap: 10px; }
   .navbar__link {
     color: white;
-    text-decoration: none; }
+    text-decoration: none;
+    color: #111111; }
     .navbar__link:hover {
       color: lightblue; }
 
 .new-user-form {
   display: flex;
   flex-direction: column; }
+
+.messages {
+  display: flex; }
+
+.banner {
+  background-image: url("/banner.jpg");
+  background-size: cover;
+  background-position: 80% 80%;
+  height: 25vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; }
+  .banner h1 {
+    color: #fcfcfc;
+    font-weight: 400; }
+  .banner h2 {
+    color: #fcfcfc;
+    font-weight: 100; }
+
+.welcome-page {
+  font-family: "Inter", sans-serif; }
+  .welcome-page__links {
+    margin-top: 2rem;
+    line-height: 3rem;
+    text-align: center; }
+    .welcome-page__links a {
+      text-decoration: none;
+      color: #74767e; }
+
+.welcome-page__message {
+  font-size: large;
+  font-family: "Inter", sans-serif;
+  margin: 2rem 3rem;
+  padding: 2rem 0;
+  text-align: center;
+  background-color: #fafafa;
+  box-shadow: 0 0.1rem 0.1rem rgba(17, 17, 17, 0.2);
+  border-radius: 0.4rem; }
+  .welcome-page__message .btn {
+    display: inline-block;
+    text-decoration: none;
+    margin-top: 1rem; }
+
+.users-list-page {
+  font-family: "Inter", sans-serif;
+  margin-top: 2rem; }
+  .users-list-page .profile-link {
+    text-decoration: none;
+    color: #74767e; }
+
+.search-bar input {
+  height: 3rem; }
+
+.jobs-list-page__table-container {
+  max-width: 100%;
+  overflow-x: auto; }
+
+.user-profile-container {
+  padding: 2rem; }
+
+.new-review-container {
+  margin: 2rem 0; }
+
+.requests-list__table-container,
+.new-request-form__container {
+  background-color: #fafafa;
+  margin: 1rem 0;
+  padding: 1rem;
+  box-shadow: 0 0.1rem 0.1rem rgba(17, 17, 17, 0.2); }
+
+.user-profile__info {
+  background-color: #fafafa;
+  margin: 1rem 0;
+  padding: 1rem;
+  box-shadow: 0 0.1rem 0.1rem rgba(17, 17, 17, 0.2);
+  width: 60%;
+  padding-left: 4rem; }

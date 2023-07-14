@@ -98,65 +98,92 @@ const JobsList = () => {
 	};
 
 	return (
-		<>
-			<h2>{header}</h2>
-			{role === ROLES.Client && <Link to="/dashboard/jobs/new">Make Job Posting</Link>}
-			<br />
-			<div>
-				{myJobs &&
-					myJobs.map((id) => {
-						const job = jobs.entities[id];
-						return (
-							job && (
-								<div key={job.id}>
-									<p>{job.id}</p>
-									<p>{job.title}</p>
-									<p>{job.description}</p>
-									<p>{job.client}</p>
-									<p>{job.clientUsername}</p>
-									<p>
-										{job.skills.map((skill, index) => {
-											if (index == job.skills.length - 1) {
-												return <span key={`${job.id}-${index}`}>{skill}</span>;
-											}
-											return <span key={`${job.id}-${index}`}>{skill}, </span>;
-										})}
-									</p>
-									<p>{job.price}</p>
-									<p>{job.startDate}</p>
-									<p>{job.dueDate}</p>
-									<p>Assigned to: {job.freelancerUsername ? job.freelancerUsername : "N/A"}</p>
-									<p>{job.status}</p>
+		<div className="jobs-list-page">
+			<h2 className="jobs-list-page--header">{header}</h2>
+			{role === ROLES.Client && (
+				<Link to="/dashboard/jobs/new" className="link">
+					Make Job Posting &gt;
+				</Link>
+			)}
+			<div className="jobs-list-page__table-container">
+				{myJobs?.length > 0 ? (
+					<table className="table jobs-table">
+						<thead>
+							<tr>
+								<th>Job ID</th>
+								<th>Title</th>
+								<th>Description</th>
+								<th>Client</th>
+								<th>Skills</th>
+								<th>Price (per hour)</th>
+								<th>Assigned to</th>
+								<th>Job Status</th>
+								<th>Proposals</th>
+							</tr>
+						</thead>
+						<tbody>
+							{myJobs &&
+								myJobs.map((id) => {
+									const job = jobs.entities[id];
+									return (
+										job && (
+											<tr key={job.id}>
+												<td>{job.id}</td>
+												<td>{job.title}</td>
+												<td>{job.description}</td>
+												<td>{job.clientUsername}</td>
+												<td>
+													{job.skills.map((skill, index) => {
+														if (index == job.skills.length - 1) {
+															return <span key={`${job.id}-${index}`}>{skill}</span>;
+														}
+														return <span key={`${job.id}-${index}`}>{skill}, </span>;
+													})}
+												</td>
+												<td>{job.price}</td>
+												<td>{job.freelancerUsername ? job.freelancerUsername : "N/A"}</td>
+												<td>{job.status}</td>
 
-									<p>{JSON.stringify(job.proposals)}</p>
+												<td>{job?.proposals.join(", ")}</td>
 
-									{role !== ROLES.Freelancer && <Link to={`/dashboard/jobs/edit/${job.id}`}>Edit Job</Link>}
-									{role === ROLES.Freelancer && job?.proposals?.includes(username) && (
-										<button onClick={() => handleDeleteProposal(job.id, username)}>Delete Proposal</button>
-									)}
-									{role === ROLES.Freelancer && !job?.proposals?.includes(username) && (
-										<button onClick={() => handleAddProposal(job.id, username)}>Add Proposal</button>
-									)}
+												{role !== ROLES.Freelancer ? (
+													<td>
+														<Link to={`/dashboard/jobs/edit/${job?.id}`} className="link">
+															Edit Job
+														</Link>
+													</td>
+												) : role === ROLES.Freelancer && job?.proposals?.includes(username) ? (
+													<td>
+														<button onClick={() => handleDeleteProposal(job.id, username)}>Delete Proposal</button>
+													</td>
+												) : (
+													<td>
+														<button onClick={() => handleAddProposal(job.id, username)}>Add Proposal</button>
+													</td>
+												)}
 
-									{role === ROLES.Client && job.status === JOB_STATUSES.Accepted && (
-										<div className="action-buttons">
-											<button onClick={() => handleUpdateStatus(job.id, JOB_STATUSES.Completed)}>
-												Mark as Completed
-											</button>
-											<br />
-											<button onClick={() => handleUpdateStatus(job.id, JOB_STATUSES.Cancelled)}>
-												Mark as Cancelled
-											</button>
-										</div>
-									)}
-
-									<hr />
-								</div>
-							)
-						);
-					})}
+												{role === ROLES.Client && job.status === JOB_STATUSES.Accepted && (
+													<td className="action-buttons">
+														<button onClick={() => handleUpdateStatus(job.id, JOB_STATUSES.Completed)}>
+															Mark as Completed
+														</button>
+														<br />
+														<button onClick={() => handleUpdateStatus(job.id, JOB_STATUSES.Cancelled)}>
+															Mark as Cancelled
+														</button>
+													</td>
+												)}
+											</tr>
+										)
+									);
+								})}
+						</tbody>
+					</table>
+				) : (
+					<h3>Nothing to see here...</h3>
+				)}
 			</div>
-		</>
+		</div>
 	);
 };
 

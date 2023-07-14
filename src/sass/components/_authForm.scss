@@ -1,0 +1,32 @@
+.auth-page {
+	margin: 0 auto;
+	width: 60%;
+	// outline: 1px solid black;
+	// box-shadow: 0 0.5rem 0.5rem rgba($black, 0.35);
+	box-shadow: 0 0.1rem 0.1rem rgba($black, 0.2);
+	padding: 1rem;
+	margin-top: 2rem;
+
+	&__header {
+		margin-bottom: 1rem;
+	}
+
+	.auth-form {
+		display: flex;
+		flex-direction: column;
+		row-gap: 1rem;
+
+		&__input {
+			display: flex;
+			flex-direction: column;
+
+			input {
+				height: 3rem;
+			}
+		}
+
+		&__button {
+			align-self: flex-end;
+		}
+	}
+}

@@ -51,14 +51,16 @@ const UserList = () => {
 	}
 
 	return (
-		<>
+		<div className="users-list-page">
 			{header}
 			{role === ROLES.Admin && (
-				<div>
-					<Link to={`/dashboard/users/new`}>Add User</Link>
+				<div className="users-list-page__add-user-link">
+					<Link to={`/dashboard/users/new`} className="link">
+						Add User &gt;
+					</Link>
 				</div>
 			)}
-			<div>
+			<div className="search-bar">
 				<input
 					type="search"
 					placeholder="Search here"
@@ -66,27 +68,37 @@ const UserList = () => {
 					value={searchInput}
 				/>
 			</div>
-			<br />
-			<hr />
 
-			<div>
-				{filteredUsers &&
-					filteredUsers?.map((id) => {
-						const user = users.entities[id];
+			<div className="users-list-page__table-container">
+				<table className="table users-table">
+					<thead>
+						<tr>
+							<th>Username</th>
+							<th>Role</th>
+						</tr>
+					</thead>
+					<tbody>
+						{filteredUsers &&
+							filteredUsers?.map((id) => {
+								const user = users?.entities[id];
 
-						return (
-							user && (
-								<div key={user.id}>
-									{}
-									<Link to={`profile/${user.id}`}>{user.username}</Link>
-									<p>{user.role}</p>
-									<hr />
-								</div>
-							)
-						);
-					})}
+								return (
+									user && (
+										<tr>
+											<td key={user.id}>
+												<Link to={`profile/${user.id}`} className={"profile-link"}>
+													{user.username}
+												</Link>
+											</td>
+											<td>{user.role}</td>
+										</tr>
+									)
+								);
+							})}
+					</tbody>
+				</table>
 			</div>
-		</>
+		</div>
 	);
 };
 

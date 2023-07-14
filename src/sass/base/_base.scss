@@ -1,3 +1,5 @@
+@import "../abstracts/variables";
+
 *,
 *::after,
 *::before {
@@ -13,4 +15,7 @@ html {
 
 body {
 	box-sizing: border-box;
+	font-family: "Montserrat", sans-serif;
+	// background-color: $off_white;
+	background-color: $off_white;
 }

@@ -40,10 +40,10 @@ const SignUp = () => {
 		await addUser({ username, password, role, firstName, lastName });
 	};
 	return (
-		<>
-			<h1>Sign Up</h1>
-			<form className="sign-up-form" onSubmit={handleSubmit}>
-				<div>
+		<div className="auth-page">
+			<h2 className="auth-page__header">Sign Up</h2>
+			<form className="auth-form" onSubmit={handleSubmit}>
+				<div className="auth-form__input">
 					<label htmlFor="username-input">Username: </label>
 					<input
 						id="username-input"
@@ -55,7 +55,7 @@ const SignUp = () => {
 						required
 					/>
 				</div>
-				<div>
+				<div className="auth-form__input">
 					<label htmlFor="password-input">Password: </label>
 					<input
 						id="password-input"
@@ -66,7 +66,7 @@ const SignUp = () => {
 						required
 					/>
 				</div>
-				<div>
+				<div className="auth-form__input">
 					<label htmlFor="firstName-input">FirstName: </label>
 					<input
 						id="firstName-input"
@@ -77,7 +77,7 @@ const SignUp = () => {
 						required
 					/>
 				</div>
-				<div>
+				<div className="auth-form__input">
 					<label htmlFor="lastName-input">LastName: </label>
 					<input
 						id="lastName-input"
@@ -89,7 +89,7 @@ const SignUp = () => {
 					/>
 				</div>
 
-				<div>
+				<div className="auth-form__input">
 					<label htmlFor="role-input">Role: </label>
 					<select id="role-input" onChange={(e) => setRole(e.target.value)} value={role}>
 						<option value="">-- Select --</option>
@@ -100,11 +100,13 @@ const SignUp = () => {
 						))}
 					</select>
 				</div>
-				<div>
-					<button type="submit">Log In</button>
+				<div className="auth-form__button">
+					<button type="submit" className="btn">
+						Sign Up &rarr;
+					</button>
 				</div>
 			</form>
-		</>
+		</div>
 	);
 };
 

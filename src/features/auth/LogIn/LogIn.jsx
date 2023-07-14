@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { LogInForm } from "./LogIn.styles";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useLoginMutation } from "../authApiSlice";
@@ -48,10 +47,10 @@ const LogIn = () => {
 		return <p>Loading...</p>;
 	}
 	return (
-		<>
-			<h2>Login</h2>
-			<form className="login-form" onSubmit={handleSubmit}>
-				<div>
+		<div className="auth-page">
+			<h2 className="auth-page__header">Login</h2>
+			<form className="auth-form" onSubmit={handleSubmit}>
+				<div className="auth-form__input">
 					<label htmlFor="username-input">Username: </label>
 					<input
 						id="username-input"
@@ -63,7 +62,7 @@ const LogIn = () => {
 						required
 					/>
 				</div>
-				<div>
+				<div className="auth-form__input">
 					<label htmlFor="password-input">Password: </label>
 					<input
 						id="password-input"
@@ -74,11 +73,13 @@ const LogIn = () => {
 						required
 					/>
 				</div>
-				<div>
-					<button type="submit">Log In</button>
+				<div className="auth-form__button">
+					<button type="submit" className="btn">
+						Log In &rarr;
+					</button>
 				</div>
 			</form>
-		</>
+		</div>
 	);
 };
 

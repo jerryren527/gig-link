@@ -1,0 +1,14 @@
+.new-request-form {
+	display: flex;
+	flex-direction: column;
+	row-gap: 1rem;
+
+	&__input {
+		display: flex;
+		flex-direction: column;
+
+		input {
+			height: 3rem;
+		}
+	}
+}

@@ -1,0 +1,14 @@
+.users-list-page {
+	font-family: "Inter", sans-serif;
+	margin-top: 2rem;
+	.profile-link {
+		text-decoration: none;
+		color: $dark_grey;
+	}
+}
+
+.search-bar {
+	input {
+		height: 3rem;
+	}
+}

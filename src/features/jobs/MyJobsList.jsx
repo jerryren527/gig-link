@@ -37,27 +37,43 @@ const MyJobsList = () => {
 	console.log("🚀 ~ file: MyJobsList.jsx:30 ~ MyJobsList ~ myJobs:", myJobs);
 
 	return (
-		<>
-			<h2>My Jobs</h2>
-			{myJobs?.length > 0 ? (
-				myJobs?.map((job, index) => {
-					return (
-						<div className="my-jobs" key={index}>
-							<div className="my-job">
-								<p>Job Id: {job.id}</p>
-								<p>{job.title}</p>
-								<p>{job.description}</p>
-								<p>Client Username: {job.clientUsername}</p>
-								<p>{job.status}</p>
-								<hr />
-							</div>
-						</div>
-					);
-				})
-			) : (
-				<h3>Nothing to see here...</h3>
-			)}
-		</>
+		<div className="my-jobs-list-page">
+			<h2 className="my-jobs-list-page--header">My Jobs</h2>
+			<div className="my-jobs-list-page__table-container">
+				{myJobs?.length > 0 ? (
+					<table className="table jobs-table">
+						<thead>
+							<tr>
+								<th>Job ID</th>
+								<th>Title</th>
+								<th>Description</th>
+								<th>Client</th>
+								<th>Price (per hour)</th>
+								<th>Job Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							{myJobs?.length > 0 &&
+								myJobs?.map((job, index) => {
+									return (
+										<tr className="my-job" key={index}>
+											<td>{job.id}</td>
+											<td>{job.title}</td>
+											<td>{job.description}</td>
+											<td>{job.clientUsername}</td>
+											<td>{job.price}</td>
+											<td>{job.status}</td>
+											<hr />
+										</tr>
+									);
+								})}
+						</tbody>
+					</table>
+				) : (
+					<h3>Nothing to see here...</h3>
+				)}
+			</div>
+		</div>
 	);
 };
 

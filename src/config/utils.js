@@ -5,3 +5,13 @@ export function formatDateForInput(dateString) {
 	const day = String(date.getDate()).padStart(2, "0");
 	return `${year}-${month}-${day}`;
 }
+
+export function formatDecimal(number) {
+	// Convert the input to a number and round to 2 decimal places
+	const roundedNumber = Number(number.toFixed(2));
+
+	// Convert the rounded number to a string with comma as a thousand separator
+	const formattedNumber = roundedNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+	return formattedNumber;
+}

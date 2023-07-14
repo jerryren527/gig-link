@@ -1,0 +1,20 @@
+.banner {
+	background-image: url("/banner.jpg");
+	background-size: cover;
+	// positioned 80% from left, and 80% from top
+	background-position: 80% 80%;
+	height: 25vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+
+	h1 {
+		color: $off_white;
+		font-weight: 400;
+	}
+
+	h2 {
+		color: $off_white;
+		font-weight: 100;
+	}
+}

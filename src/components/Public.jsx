@@ -1,15 +1,15 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Public = () => {
-  return (
-    <>
-      <div>
-        <h1>Welcome to Gig-Link</h1>
-        <h2>Where Freelancers and Clients Unite for Limitless Projects</h2>
-      </div>
-    </>
-  )
-}
+	return (
+		<>
+			<div className="banner">
+				<h1>Explore Gig Link's top talent</h1>
+				<h2>Clients and freelancers unite for limitless projects</h2>
+			</div>
+		</>
+	);
+};
 
-export default Public
+export default Public;

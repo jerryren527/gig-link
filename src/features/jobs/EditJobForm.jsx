@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { selectJobById, useUpdateJobMutation } from "./jobsApiSlice";
+import { selectJobById, useGetJobsQuery, useUpdateJobMutation } from "./jobsApiSlice";
 import { formatDateForInput } from "../../config/utils";
 import { JOB_STATUSES } from "../../config/constants";
 import { useGetUsersQuery } from "../users/usersApiSlice";
@@ -12,7 +12,20 @@ const EditJobForm = () => {
 	const { jobId } = useParams();
 
 	// const message = useSelector(state => selectMessageById(state, id))
-	const job = useSelector((state) => selectJobById(state, jobId));
+	const {
+		data: jobs,
+		isLoading: isGetJobsLoading,
+		isSuccess: isGetJobsSuccess,
+		isError: isGetJobsError,
+		error: getJobsError,
+		refetch,
+	} = useGetJobsQuery(undefined, {
+		pollingInterval: 15000, // 30 seconds requery the data.
+		refetchOnFocus: true, // if re-focusing on browser window, refetch data
+		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
+	});
+	// const job = useSelector((state) => selectJobById(state, jobId));
+	const job = jobs?.entities[jobId];
 
 	const [title, setTitle] = useState(job?.title);
 	const [description, setDescription] = useState(job?.description);
@@ -29,7 +42,7 @@ const EditJobForm = () => {
 
 	const [updateJob, { isLoading, isSuccess, isError, error }] = useUpdateJobMutation();
 
-	const { data: users } = useGetUsersQuery(undefined, {
+	const { data: users, refetch: refetchUsers } = useGetUsersQuery(undefined, {
 		pollingInterval: 15000,
 		refetchOnFocus: true, // if re-focusing on browser window, refetch data
 		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
@@ -73,6 +86,8 @@ const EditJobForm = () => {
 		console.log("🚀 ~ file: EditJobForm.jsx:70 ~ handleSubmit ~ proposals:", proposals);
 		console.log("🚀 ~ file: EditJobForm.jsx:73 ~ handleSubmit ~ freelancerUsername:", freelancerUsername);
 
+		const newStatus = freelancerUsername ? JOB_STATUSES.Accepted : status;
+
 		await updateJob({
 			jobId,
 			title,
@@ -83,8 +98,10 @@ const EditJobForm = () => {
 			freelancerUsername,
 			startDate,
 			dueDate,
-			status,
+			status: newStatus,
 		});
+		refetch();
+		refetchUsers();
 	};
 
 	const handleChange = (e) => {
@@ -171,7 +188,7 @@ const EditJobForm = () => {
 
 				<div className="edit-job-form__input">
 					<label htmlFor="status-input">Status: </label>
-					<select id="status-input-input" onChange={(e) => setStatus(e.target.value)} value={status}>
+					<select id="status-input-input" onChange={(e) => setStatus(e.target.value)} value={status} disabled>
 						<option value="">-- Select --</option>
 						{Object.entries(JOB_STATUSES).map(([key, value]) => (
 							<option key={key} value={value}>

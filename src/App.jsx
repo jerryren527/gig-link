@@ -26,8 +26,11 @@ import RequestList from "./features/requests/RequestList";
 import NewRequestForm from "./features/requests/NewRequestForm";
 import RequireAuth from "./features/auth/RequireAuth";
 import { ROLES } from "./config/constants";
+import MyJobsList from "./features/jobs/MyJobsList";
+import useTitle from "./hooks/useTitle";
 
 function App() {
+	useTitle("Gig-Link | Homepage");
 	return (
 		<Routes>
 			<Route path="/" element={<Layout />}>
@@ -49,8 +52,8 @@ function App() {
 									<Route index element={<UserList />} />
 									<Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}>
 										<Route path="new" element={<NewUserForm />} />
-										<Route path="edit/:userId" element={<EditUser />} />
 									</Route>
+									<Route path="edit/:userId" element={<EditUser />} />
 									<Route path="profile/:userId" element={<UserProfile />} />
 								</Route>
 
@@ -61,7 +64,7 @@ function App() {
 										<Route path="edit/:jobId" element={<EditJobForm />} />
 									</Route>
 									<Route element={<RequireAuth allowedRoles={[ROLES.Freelancer]} />}>
-										<Route path="active" element={<ActiveJobsList />} />
+										<Route path="my-jobs" element={<MyJobsList />} />
 									</Route>
 								</Route>
 

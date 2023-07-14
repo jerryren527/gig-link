@@ -33,7 +33,7 @@ const NewRequestForm = ({ client, freelancer, refetchRequests }) => {
 	};
 
 	return (
-		<>
+		<div className="new-request-form__container">
 			<h2>New Request Form</h2>
 			<form className="new-request-form" onSubmit={handleSubmit}>
 				<div className="new-request-form__input">
@@ -54,11 +54,13 @@ const NewRequestForm = ({ client, freelancer, refetchRequests }) => {
 					<label htmlFor="price-input">Price: </label>
 					<input id="price-input" value={price} type="number" onChange={(e) => setPrice(e.target.value)} required />
 				</div>
-				<div className="btn">
-					<button type="submit">Add Request</button>
+				<div className="new-request-form__button">
+					<button type="submit" className="btn">
+						Add Request
+					</button>
 				</div>
 			</form>
-		</>
+		</div>
 	);
 };
 

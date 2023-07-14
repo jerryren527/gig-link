@@ -1,0 +1,13 @@
+.btn {
+	background-color: $btn_green;
+	color: $off_white;
+	font-size: 200;
+	padding: 1.3rem 2.5rem;
+	border-radius: 0.4rem;
+
+	&--delete {
+		margin-top: 1rem;
+		background-color: $light_grey;
+		color: $dark_grey;
+	}
+}

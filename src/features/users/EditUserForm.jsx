@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDeleteUserMutation, useUpdateUserMutation } from "./usersApiSlice";
 import useAuth from "../../hooks/useAuth";
 import { ROLES } from "../../config/constants";
+import { useSendLogoutMutation } from "../auth/authApiSlice";
 
 const EditUserForm = ({ user }) => {
 	const [username, setUsername] = useState(user.username);
@@ -15,11 +16,13 @@ const EditUserForm = ({ user }) => {
 	console.log("🚀 ~ file: EditUserForm.jsx:13 ~ EditUserForm ~ skills:", skills);
 	console.log("🚀 ~ file: EditUserForm.jsx:13 ~ EditUserForm ~ typeof skills:", typeof skills);
 	const navigate = useNavigate();
-	const { id } = useAuth();
+	const { id, username: loggedInUsername } = useAuth();
 
 	const [updateUser, { isLoading, isSuccess, isError, error }] = useUpdateUserMutation();
 
 	const [deleteUser, { isSuccess: isDelSuccess, isError: isDelError, error: delError }] = useDeleteUserMutation();
+
+	const [sendLogout] = useSendLogoutMutation();
 
 	useEffect(() => {
 		console.log("isSuccess:", isSuccess);
@@ -53,8 +56,11 @@ const EditUserForm = ({ user }) => {
 	const handleDelete = async () => {
 		try {
 			console.log("deleted");
-
 			await deleteUser({ id: user.id });
+
+			alert(`${loggedInUsername} deleted permanently`);
+			await sendLogout();
+			navigate("/");
 		} catch (err) {
 			console.log(err);
 		}

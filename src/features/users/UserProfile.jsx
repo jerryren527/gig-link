@@ -7,10 +7,12 @@ import { useAddReviewMutation, useDeleteReviewMutation, useGetReviewsQuery } fro
 import { useAddRequestMutation, useGetRequestsQuery } from "../requests/requestsApiSlice";
 import NewRequestForm from "../requests/NewRequestForm";
 import useTitle from "../../hooks/useTitle";
+import Rating from "../../components/Rating";
+import NewReviewForm from "../../components/NewReviewForm";
+import { formatDecimal } from "../../config/utils";
 
 const UserProfile = () => {
 	const { userId } = useParams(); // profile user id
-	// const { userId } = useParams();
 	const { id, username, role } = useAuth(); // logged in user
 
 	useTitle(`Profile | ${username}`);
@@ -23,21 +25,21 @@ const UserProfile = () => {
 		error,
 		refetch: refetchUsers,
 	} = useGetUsersQuery(undefined, {
-		pollingInterval: 30000, // 60 seconds requery the data.
-		refetchOnFocus: true, // if re-focusing on browser window, refetch data
-		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
+		pollingInterval: 30000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
 	});
 
 	const { data: reviews, refetch } = useGetReviewsQuery(undefined, {
-		pollingInterval: 30000, // 60 seconds requery the data.
-		refetchOnFocus: true, // if re-focusing on browser window, refetch data
-		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
+		pollingInterval: 30000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
 	});
 
 	const { data: requests, refetch: refetchRequests } = useGetRequestsQuery(undefined, {
-		pollingInterval: 30000, // 60 seconds requery the data.
-		refetchOnFocus: true, // if re-focusing on browser window, refetch data
-		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
+		pollingInterval: 30000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
 	});
 
 	const [addRequest, { isLoading: isAddRequestLoading }] = useAddRequestMutation();
@@ -90,55 +92,16 @@ const UserProfile = () => {
 		console.log("🚀 ~ file: UserProfile.jsx:87 ~ freelancerReviewId ~ freelancerReviewId:", freelancerReviewId);
 		if (!freelancerReviewId) {
 			reviewContainer = (
-				<form onSubmit={handleAddReview}>
-					<div className="review-form__input">
-						<label htmlFor="client-input">Client Id: </label>
-						<input
-							id="client-input"
-							value={client}
-							type="text"
-							onChange={(e) => setClient(e.target.value)}
-							required
-							disabled
-						/>
-					</div>
-
-					<div className="review-form__input">
-						<label htmlFor="freelancer-input">Freelancer Id: </label>
-						<input
-							id="freelancer-input"
-							value={freelancer}
-							type="text"
-							onChange={(e) => setFreelancer(e.target.value)}
-							required
-							disabled
-						/>
-					</div>
-
-					<div className="review-form__input">
-						<label htmlFor="review-input">Review: </label>
-						<textarea
-							id="review-input"
-							value={review}
-							type="text"
-							onChange={(e) => setReview(e.target.value)}
-							required
-						/>
-					</div>
-
-					<div className="review-form__input">
-						<label htmlFor="rating-input">Rating: </label>
-						<input
-							id="rating-input"
-							type="number"
-							value={rating}
-							onChange={(e) => setRating(e.target.value)}
-							required
-						/>
-					</div>
-
-					<button onClick={handleAddReview}>Add a Review</button>
-				</form>
+				<>
+					<h3>New Review Form</h3>
+					<NewReviewForm
+						handleAddReview={handleAddReview}
+						review={review}
+						setReview={setReview}
+						rating={rating}
+						setRating={setRating}
+					/>
+				</>
 			);
 
 			// Logged in User is a client, profile user is a freelancer. Check profileUser.recievedRequests and match with loggedInUser.postedRequests
@@ -148,12 +111,11 @@ const UserProfile = () => {
 			console.log("🚀 ~ file: UserProfile.jsx:120 ~ UserProfile ~ review:", review);
 
 			reviewContainer = (
-				<div>
-					<p>Your Review:</p>
-					<p>{review.review}</p>
-					<p>{review.rating}</p>
-					<button onClick={() => handleDeleteReview(freelancerReviewId)}>Delete My Review</button>
-				</div>
+				<>
+					<button onClick={() => handleDeleteReview(freelancerReviewId)} className="btn btn--delete">
+						Delete My Review
+					</button>
+				</>
 			);
 		}
 		console.log("profileUser.receivedRequests", profileUser.receivedRequests);
@@ -172,70 +134,133 @@ const UserProfile = () => {
 	};
 
 	return (
-		<>
-			<h2>User Profile</h2>
+		<div className="user-profile-container">
+			<h2>{profileUser?.username}'s Profile</h2>
 			<div hidden={role !== ROLES.Admin}>
 				<button className="btn--delete" onClick={handleDelteUser}>
 					Delete User
 				</button>
 			</div>
+
+			{(profileUser?.role === ROLES.Freelancer && profileUser?.freelancerReviews?.length) > 0 ? (
+				<h3>{`${profileUser?.freelancerReviews?.length} reviews`}</h3>
+			) : profileUser?.role === ROLES.Freelancer ? (
+				<h3>{`Be the first to review ${profileUser?.username}`}</h3>
+			) : (
+				<p>&nbsp;</p>
+			)}
+
 			{profileUser?.role === ROLES.Freelancer && profileUser?.overallRating ? (
-				<h3>{`Rating: ${profileUser?.overallRating} out of 5`}</h3>
+				<>
+					<Rating rating={profileUser?.overallRating} maxRating={5} /> {`${formatDecimal(profileUser?.overallRating)}`}
+				</>
 			) : (
 				<h3>&nbsp;</h3>
 			)}
-			{profileUser?.freelancerReviews?.length > 0 ? (
-				<h3>{`${profileUser?.freelancerReviews?.length} review(s)`}</h3>
-			) : (
-				<h3>{`Be the first to review ${profileUser?.username}`}</h3>
-			)}
-			<p>userId: {userId}</p>
-			<p>username: {profileUser?.username}</p>
-			<p>firstName: {profileUser?.firstName}</p>
-			<p>lastName: {profileUser?.lastName}</p>
-			<p>role: {profileUser?.role}</p>
-			<p hidden={role !== ROLES.Freelancer}>
-				skills: {profileUser?.skills.length > 0 ? profileUser.skills.join(", ") : "None"}
-			</p>
-			<br />
-			<hr />
-			{id === userId && <Link to={`../edit/${userId}`}>Edit Profile</Link>}
-			{profileUser?.freelancerReviews.map((reviewId) => {
-				const review = reviews?.entities[reviewId];
-				console.log("review", review);
-				return (
-					<div className="review">
-						<p>{review?.client}</p>
-						<p>{review?.freelancer}</p>
-						<p>{review?.review}</p>
-						<p>{review?.rating}</p>
-						<hr />
-					</div>
-				);
-			})}
-			{reviewContainer && reviewContainer}
-			{loggedInUserRequestForFreelancer &&
-				loggedInUserRequestForFreelancer.map((requestId) => {
-					const request = requests?.entities[requestId];
-					console.log("request", request);
-					return (
-						<>
-							<h3>Your Requests for this Freelancer:</h3>
-							<div className="request">
-								<p>{request?.client}</p>
-								<p>{request?.freelancer}</p>
-								<p>{request?.title}</p>
-								<p>{request?.description}</p>
-								<p>{request?.price}</p>
-								<p>{request?.status}</p>
+			<div className="user-profile__info">
+				<p>
+					<b>User Id:</b> {userId}
+				</p>
+				<p>
+					<b>Username:</b> {profileUser?.username}
+				</p>
+				<p>
+					<b>First Name:</b> {profileUser?.firstName}
+				</p>
+				<p>
+					<b>Last Name:</b> {profileUser?.lastName}
+				</p>
+				<p>
+					<b>Role:</b> {profileUser?.role}
+				</p>
+				<p hidden={role !== ROLES.Freelancer}>
+					<b>Skills:</b> {profileUser?.skills.length > 0 ? profileUser.skills.join(", ") : "None"}
+				</p>
+				<br />
+				{id === userId && (
+					<Link to={`../edit/${userId}`} className="link-btn">
+						Edit Profile
+					</Link>
+				)}
+			</div>
+
+			{/* Freelancer Reviews */}
+			{profileUser?.role === ROLES.Freelancer && <h3 id="freelancer-review-header">Freelancer Reviews:</h3>}
+			<div className="freelancer-review-container">
+				{profileUser?.role === ROLES.Freelancer && profileUser?.freelancerReviews?.length > 0 ? (
+					profileUser?.freelancerReviews.map((reviewId) => {
+						const review = reviews?.entities[reviewId];
+						console.log("review", review);
+						const clientUsername = users?.entities[review?.client]?.username;
+						return (
+							<div className="freelancer-review">
+								{Array.from({ length: 5 }).map((_, index) => (
+									<>
+										{index < review?.rating ? (
+											<span className="star star--filled" key={index}>
+												&#9733;
+											</span>
+										) : (
+											<span className="star" key={index}>
+												&#9734;
+											</span>
+										)}
+									</>
+								))}
+								<b> {clientUsername ? clientUsername : "N/A"}</b>
+								<p className="freelancer-review--review">{review?.review}</p>
 							</div>
-						</>
-					);
-				})}
+						);
+					})
+				) : profileUser?.role === ROLES.Freelancer ? (
+					<p>Nothing to see here...</p>
+				) : (
+					<p>&nbsp;</p>
+				)}
+			</div>
+
+			{/* New Review Form or Your Reviews for freelancer */}
+			{reviewContainer && <div className="review-form-container">{reviewContainer}</div>}
+
+			{/* Your Requests and New Request Form */}
+			{role === ROLES.Client &&
+			profileUser?.role === ROLES.Freelancer &&
+			loggedInUserRequestForFreelancer?.length > 0 ? (
+				<div className="requests-list__table-container">
+					<h3>Your Requests for this Freelancer:</h3>
+					<table className="table requests-table">
+						<thead>
+							<tr>
+								<th>Title</th>
+								<th>Description</th>
+								<th>Price (per hour)</th>
+								<th>Request Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							{loggedInUserRequestForFreelancer &&
+								loggedInUserRequestForFreelancer.map((requestId) => {
+									const request = requests?.entities[requestId];
+									console.log("request", request);
+									return (
+										<tr key={request?.id}>
+											<td>{request?.title}</td>
+											<td>{request?.description}</td>
+											<td>{request?.price}</td>
+											<td>{request?.status}</td>
+										</tr>
+									);
+								})}
+						</tbody>
+					</table>
+				</div>
+			) : (
+				<p>&nbsp;</p>
+			)}
 			{role === ROLES.Client && profileUser?.role === ROLES.Freelancer && (
 				<NewRequestForm client={id} freelancer={profileUser?.id} refetchRequests={refetchRequests} />
 			)}
-		</>
+		</div>
 	);
 };
 

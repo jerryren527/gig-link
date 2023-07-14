@@ -1,0 +1,22 @@
+.review-form-container {
+	background-color: $light_grey;
+	margin: 1rem 0;
+	padding: 1rem;
+	box-shadow: 0 0.1rem 0.1rem rgba($black, 0.2);
+	width: 60%;
+}
+
+.review-form {
+	display: flex;
+	flex-direction: column;
+	row-gap: 1rem;
+
+	&__input {
+		display: flex;
+		flex-direction: column;
+
+		input {
+			height: 3rem;
+		}
+	}
+}

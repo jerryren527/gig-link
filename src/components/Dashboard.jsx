@@ -6,7 +6,6 @@ const Dashboard = () => {
 	useTitle("Gig-Link | Dashboard");
 	return (
 		<>
-			<h1>Dashboard</h1>
 			<Outlet />
 		</>
 	);
