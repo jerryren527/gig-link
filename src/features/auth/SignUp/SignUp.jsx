@@ -67,7 +67,7 @@ const SignUp = () => {
 					/>
 				</div>
 				<div className="auth-form__input">
-					<label htmlFor="firstName-input">FirstName: </label>
+					<label htmlFor="firstName-input">First Name: </label>
 					<input
 						id="firstName-input"
 						name="firstName"
@@ -78,7 +78,7 @@ const SignUp = () => {
 					/>
 				</div>
 				<div className="auth-form__input">
-					<label htmlFor="lastName-input">LastName: </label>
+					<label htmlFor="lastName-input">Last Name: </label>
 					<input
 						id="lastName-input"
 						name="lastName"

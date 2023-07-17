@@ -3,6 +3,7 @@ import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { useAddJobMutation } from "./jobsApiSlice";
 import useTitle from "../../hooks/useTitle";
+import { formatDateForInput } from "../../config/utils";
 
 const NewJobForm = () => {
 	useTitle(`Gig-Link | New Job`);
@@ -46,8 +47,8 @@ const NewJobForm = () => {
 	};
 
 	return (
-		<>
-			<h2>New Job Form</h2>
+		<div className="new-job-page">
+			<h2 className="new-job-page--header">New Job Form</h2>
 			<form className="new-job-form" onSubmit={handleSubmit}>
 				<div className="new-job-form__input">
 					<label htmlFor="title-input">Title: </label>
@@ -78,13 +79,20 @@ const NewJobForm = () => {
 				</div>
 
 				<div className="new-job-form__input">
-					<label htmlFor="skills-input">Skills: </label>
+					<label htmlFor="skills-input">Skills (comma-separated. E.g., C, Python): </label>
 					<input id="skills-input" value={skills} type="text" onChange={(e) => setSkills(e.target.value)} required />
 				</div>
 
 				<div className="new-job-form__input">
 					<label htmlFor="price-input">Price: </label>
-					<input id="price-input" value={price} type="text" onChange={(e) => setPrice(e.target.value)} required />
+					<input
+						id="price-input"
+						value={price}
+						type="number"
+						onChange={(e) => setPrice(e.target.value)}
+						required
+						min={0}
+					/>
 				</div>
 
 				<div className="new-job-form__input">
@@ -94,20 +102,31 @@ const NewJobForm = () => {
 						type="date"
 						value={startDate}
 						onChange={(e) => setStartDate(e.target.value)}
+						min={formatDateForInput(new Date(Date.now()))}
+						// min={new Date().toISOString().split("T"[0])}
 						required
 					/>
 				</div>
 
 				<div className="new-job-form__input">
 					<label htmlFor="dueDate-input">DueDate: </label>
-					<input id="dueDate-input" value={dueDate} type="date" onChange={(e) => setDueDate(e.target.value)} required />
+					<input
+						id="dueDate-input"
+						value={dueDate}
+						type="date"
+						onChange={(e) => setDueDate(e.target.value)}
+						min={startDate}
+						required
+					/>
 				</div>
 
-				<div className="btn">
-					<button type="submit">Post Job</button>
+				<div>
+					<button type="submit" className="btn">
+						Post Job
+					</button>
 				</div>
 			</form>
-		</>
+		</div>
 	);
 };
 

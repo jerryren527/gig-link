@@ -1,11 +1,17 @@
 import React, { useEffect, useState, memo } from "react";
 import { useAddRequestMutation } from "./requestsApiSlice";
 import useTitle from "../../hooks/useTitle";
+import { useNavigate, useParams } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
-const NewRequestForm = ({ client, freelancer, refetchRequests }) => {
+const NewRequestForm = () => {
 	useTitle(`Gig-Link | New Request`);
-	console.log("🚀 ~ file: NewRequestForm.jsx:4 ~ NewRequestForm ~ freelancer:", freelancer);
-	console.log("🚀 ~ file: NewRequestForm.jsx:4 ~ NewRequestForm ~ client:", client);
+	// console.log("🚀 ~ file: NewRequestForm.jsx:4 ~ NewRequestForm ~ freelancer:", freelancer);
+	// console.log("🚀 ~ file: NewRequestForm.jsx:4 ~ NewRequestForm ~ client:", client);
+
+	const { freelancerId } = useParams();
+	const { id, username } = useAuth();
+	const navigate = useNavigate();
 
 	const [title, setTitle] = useState("");
 	const [description, setDescription] = useState("");
@@ -19,7 +25,8 @@ const NewRequestForm = ({ client, freelancer, refetchRequests }) => {
 			setTitle("");
 			setDescription("");
 			setPrice("");
-			refetchRequests();
+			// refetchRequests();
+			navigate(`/dashboard/users/profile/${freelancerId}`);
 		}
 		if (isError) {
 			alert(`Error: ${error?.data?.message}`);
@@ -29,7 +36,7 @@ const NewRequestForm = ({ client, freelancer, refetchRequests }) => {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		console.log("submitted!");
-		await addNewRequest({ client, freelancer, title, description, price });
+		await addNewRequest({ client: id, freelancer: freelancerId, title, description, price });
 	};
 
 	return (
@@ -64,5 +71,6 @@ const NewRequestForm = ({ client, freelancer, refetchRequests }) => {
 	);
 };
 
-const memoizedNewRequestForm = memo(NewRequestForm);
-export default memoizedNewRequestForm;
+// const memoizedNewRequestForm = memo(NewRequestForm);
+// export default memoizedNewRequestForm;
+export default NewRequestForm;

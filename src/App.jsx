@@ -59,7 +59,7 @@ function App() {
 
 								<Route path="jobs">
 									<Route index element={<JobsList />} />
-									<Route element={<RequireAuth allowedRoles={[ROLES.Client]} />}>
+									<Route element={<RequireAuth allowedRoles={[ROLES.Client, ROLES.Admin]} />}>
 										<Route path="new" element={<NewJobForm />} />
 										<Route path="edit/:jobId" element={<EditJobForm />} />
 									</Route>
@@ -77,7 +77,7 @@ function App() {
 								<Route element={<RequireAuth allowedRoles={[ROLES.Client, ROLES.Freelancer]} />}>
 									<Route path="requests">
 										<Route index element={<RequestList />} />
-										<Route path="new" element={<NewRequestForm />} />
+										<Route path="new/:freelancerId" element={<NewRequestForm />} />
 									</Route>
 								</Route>
 							</Route>

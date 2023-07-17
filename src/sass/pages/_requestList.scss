@@ -1,0 +1,18 @@
+.requests-list-page {
+	font-family: "Inter", sans-serif;
+	margin-top: 2rem;
+
+	&__table-container {
+		max-width: 100%;
+		overflow-x: auto;
+	}
+}
+
+.action-buttons-container {
+	display: flex;
+	flex-direction: column;
+
+	button {
+		display: block;
+	}
+}

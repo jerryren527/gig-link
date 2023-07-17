@@ -3,6 +3,7 @@ import React, { memo } from "react";
 const NewReviewForm = ({ handleAddReview, review, setReview, rating, setRating }) => {
 	console.log("🚀 ~ file: NewReviewForm.jsx:4 ~ NewReviewForm ~ setRating:", setRating);
 	console.log("🚀 ~ file: NewReviewForm.jsx:4 ~ NewReviewForm ~ rating:", rating);
+	console.log("🚀 ~ file: NewReviewForm.jsx:4 ~ NewReviewForm ~ typeof rating:", typeof rating);
 	console.log("🚀 ~ file: NewReviewForm.jsx:4 ~ NewReviewForm ~ setReview:", setReview);
 	console.log("🚀 ~ file: NewReviewForm.jsx:4 ~ NewReviewForm ~ handleAddReview, review:", handleAddReview, review);
 	return (
@@ -14,7 +15,14 @@ const NewReviewForm = ({ handleAddReview, review, setReview, rating, setRating }
 
 			<div className="review-form__input">
 				<label htmlFor="rating-input">Rating: </label>
-				<input id="rating-input" type="number" value={rating} onChange={(e) => setRating(e.target.value)} required />
+				<select id="rating-input" value={rating} onChange={(e) => setRating(parseInt(e.target.value))} required>
+					<option value="">-- Select Rating --</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+				</select>
 			</div>
 
 			<button onClick={handleAddReview} className="btn">

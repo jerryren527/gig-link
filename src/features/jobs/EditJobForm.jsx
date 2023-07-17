@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { selectJobById, useGetJobsQuery, useUpdateJobMutation } from "./jobsApiSlice";
 import { formatDateForInput } from "../../config/utils";
+import { timezoneOffset } from "../../config/constants";
 import { JOB_STATUSES } from "../../config/constants";
 import { useGetUsersQuery } from "../users/usersApiSlice";
 import useTitle from "../../hooks/useTitle";
@@ -109,9 +110,25 @@ const EditJobForm = () => {
 		setFreelancerUsername(e.target.value);
 	};
 
+	const handleDateChange = (e, dateType) => {
+		console.log("date changed!");
+		console.log("e.target.value", e.target.value);
+		const selectedDate = new Date(e.target.value);
+		const adjustedDate = new Date(selectedDate.getTime() + timezoneOffset);
+		console.log("🚀 ~ file: EditJobForm.jsx:117 ~ () =? handleDateChange ~ adjustedDate:", adjustedDate);
+		if (dateType === "start") {
+			console.log("start");
+			setStartDate(adjustedDate);
+		} else {
+			console.log("end");
+			setDueDate(adjustedDate);
+		}
+	};
+
+	console.log("startDate", startDate);
 	return (
-		<>
-			<h2>Edit Job Form</h2>
+		<div className="edit-job-form-page">
+			<h2 className="edit-job-form-page--header">Edit Job Form</h2>
 			<form className="edit-job-form" onSubmit={handleSubmit}>
 				<div className="edit-job-form__input">
 					<label htmlFor="title-input">Title: </label>
@@ -146,7 +163,7 @@ const EditJobForm = () => {
 
 				<div className="edit-job-form__input">
 					<label htmlFor="price-input">Price: </label>
-					<input id="price-input" value={price} type="text" onChange={(e) => setPrice(e.target.value)} />
+					<input id="price-input" value={price} type="number" onChange={(e) => setPrice(e.target.value)} min={0} />
 				</div>
 
 				<div className="edit-job-form__input">
@@ -204,7 +221,8 @@ const EditJobForm = () => {
 						id="startDate-input"
 						value={formatDateForInput(startDate)}
 						type="date"
-						onChange={(e) => setStartDate(e.target.value)}
+						onChange={(e) => handleDateChange(e, "start")}
+						min={formatDateForInput(new Date(Date.now()))}
 					/>
 				</div>
 
@@ -214,15 +232,18 @@ const EditJobForm = () => {
 						id="dueDate-input"
 						value={formatDateForInput(dueDate)}
 						type="date"
-						onChange={(e) => setDueDate(e.target.value)}
+						onChange={(e) => handleDateChange(e, "due")}
+						min={formatDateForInput(startDate)}
 					/>
 				</div>
 
-				<div className="btn">
-					<button type="submit">Save</button>
+				<div>
+					<button type="submit" className="btn">
+						Save
+					</button>
 				</div>
 			</form>
-		</>
+		</div>
 	);
 };
 

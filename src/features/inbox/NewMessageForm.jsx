@@ -42,8 +42,8 @@ const NewMessageForm = () => {
 	};
 
 	return (
-		<>
-			<h2>New Message Form</h2>
+		<div className="new-message-form-page">
+			<h2 className="new-message-form-page__header">New Message Form</h2>
 			<form className="new-message-form" onSubmit={handleSubmit}>
 				<div className="new-message-form__input">
 					<label htmlFor="title-input">Title: </label>
@@ -78,11 +78,13 @@ const NewMessageForm = () => {
 					/>
 				</div>
 
-				<div className="btn">
-					<button type="submit">Send Message</button>
+				<div>
+					<button type="submit" className="btn">
+						Send Message
+					</button>
 				</div>
 			</form>
-		</>
+		</div>
 	);
 };
 

@@ -59,8 +59,9 @@ const Inbox = () => {
 	return (
 		<>
 			<h2>Inbox</h2>
-			<Link to="/dashboard/inbox/new">Compose New Message</Link>
-			<hr />
+			<Link to="/dashboard/inbox/new" className="link-btn">
+				Compose New Message
+			</Link>
 			<div className="messages">
 				<div>
 					<h3>Sent Messages</h3>

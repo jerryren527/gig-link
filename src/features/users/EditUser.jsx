@@ -14,7 +14,7 @@ const EditUser = () => {
 	// The selectFromResult option is RTK Query specific that allows you to customize the data that gets selected and stored in the redux store as a result of the query.
 	// useGetUsersQuery() returns Object { user: {...}, refretch: refetch() }. So we destructure user from it.
 	// Also note that we are using useGetUsersQuery() hook instead of the RTK Query's automatically generated selectors (which requires the use of useSelector). I think this is a matter of preference, as both options work.
-	const { user } = useGetUsersQuery("usersList", {
+	const { user, refetch } = useGetUsersQuery("usersList", {
 		selectFromResult: ({ data }) => ({
 			// Destructure out the 'data' property of the query result object
 			user: data?.entities[userId],
@@ -25,7 +25,7 @@ const EditUser = () => {
 		return <PulseLoader color="#FFF" />;
 	}
 
-	let content = <EditUserForm user={user} />;
+	let content = <EditUserForm user={user} refetch={refetch} />;
 
 	return content;
 };

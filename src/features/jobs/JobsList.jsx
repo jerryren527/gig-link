@@ -99,7 +99,7 @@ const JobsList = () => {
 
 	return (
 		<div className="jobs-list-page">
-			<h2 className="jobs-list-page--header">{header}</h2>
+			<h2 className="jobs-list-page__header">{header}</h2>
 			{role === ROLES.Client && (
 				<Link to="/dashboard/jobs/new" className="link">
 					Make Job Posting &gt;
@@ -154,21 +154,28 @@ const JobsList = () => {
 													</td>
 												) : role === ROLES.Freelancer && job?.proposals?.includes(username) ? (
 													<td>
-														<button onClick={() => handleDeleteProposal(job.id, username)}>Delete Proposal</button>
+														<button className="btn btn--decline" onClick={() => handleDeleteProposal(job.id, username)}>
+															Delete Proposal
+														</button>
 													</td>
 												) : (
 													<td>
-														<button onClick={() => handleAddProposal(job.id, username)}>Add Proposal</button>
+														<button className="btn" onClick={() => handleAddProposal(job.id, username)}>
+															Add Proposal
+														</button>
 													</td>
 												)}
 
 												{role === ROLES.Client && job.status === JOB_STATUSES.Accepted && (
 													<td className="action-buttons">
-														<button onClick={() => handleUpdateStatus(job.id, JOB_STATUSES.Completed)}>
+														<button className="btn" onClick={() => handleUpdateStatus(job.id, JOB_STATUSES.Completed)}>
 															Mark as Completed
 														</button>
 														<br />
-														<button onClick={() => handleUpdateStatus(job.id, JOB_STATUSES.Cancelled)}>
+														<button
+															className="btn btn--decline"
+															onClick={() => handleUpdateStatus(job.id, JOB_STATUSES.Cancelled)}
+														>
 															Mark as Cancelled
 														</button>
 													</td>
@@ -180,7 +187,7 @@ const JobsList = () => {
 						</tbody>
 					</table>
 				) : (
-					<h3>Nothing to see here...</h3>
+					<p>Nothing to see here...</p>
 				)}
 			</div>
 		</div>

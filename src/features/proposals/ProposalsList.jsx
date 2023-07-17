@@ -77,7 +77,7 @@ const ProposalsList = () => {
 					</tbody>
 				</table>
 			) : (
-				<h2>Nothing to see here...</h2>
+				<p>Nothing to see here...</p>
 			)}
 		</div>
 	);

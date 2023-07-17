@@ -1,0 +1,10 @@
+.message {
+	line-height: 2.5rem;
+	margin: 1rem;
+	// outline: 1px solid black;
+	border-radius: 0.5rem;
+	box-shadow: 0.2rem 0.2rem 0.2rem rgba($black, 0.2);
+	&-body {
+		color: $dark_grey;
+	}
+}

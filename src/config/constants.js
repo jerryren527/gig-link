@@ -22,3 +22,5 @@ export const ROLES = {
 	Freelancer: "Freelancer",
 	Admin: "Admin",
 };
+
+export const timezoneOffset = new Date().getTimezoneOffset() * 60000; // Timezone offset in milliseconds

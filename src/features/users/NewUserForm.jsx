@@ -37,8 +37,8 @@ const NewUserForm = () => {
 	};
 
 	return (
-		<>
-			<h2>New User Form</h2>
+		<div className="new-user-form-page">
+			<h2 className="new-user-form-page--header">New User Form</h2>
 			<form className="new-user-form" onSubmit={handleSubmit}>
 				<div className="new-user-form__input">
 					<label htmlFor="username-input">Username: </label>
@@ -91,11 +91,13 @@ const NewUserForm = () => {
 						<option value="Admin">Admin</option>
 					</select>
 				</div>
-				<div className="btn">
-					<button type="submit">Add User</button>
+				<div>
+					<button type="submit" className="btn">
+						Add User
+					</button>
 				</div>
 			</form>
-		</>
+		</div>
 	);
 };
 

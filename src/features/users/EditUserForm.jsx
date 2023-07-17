@@ -5,12 +5,14 @@ import useAuth from "../../hooks/useAuth";
 import { ROLES } from "../../config/constants";
 import { useSendLogoutMutation } from "../auth/authApiSlice";
 
-const EditUserForm = ({ user }) => {
+const EditUserForm = ({ user, refetch }) => {
 	const [username, setUsername] = useState(user.username);
 	const [password, setPassword] = useState("");
 	const [firstName, setFirstName] = useState(user.firstName);
 	const [lastName, setLastName] = useState(user.lastName);
+	// const [skills, setSkills] = useState(user.skills.length > 0 ? user.skills.join(", ") : "");
 	const [skills, setSkills] = useState(user.skills);
+	console.log("🚀 ~ file: EditUserForm.jsx:14 ~ EditUserForm ~ skills:", skills);
 	const [role, setRole] = useState(user.role);
 
 	console.log("🚀 ~ file: EditUserForm.jsx:13 ~ EditUserForm ~ skills:", skills);
@@ -34,6 +36,7 @@ const EditUserForm = ({ user }) => {
 			setLastName("");
 			setSkills("");
 			setRole("");
+			refetch();
 			navigate(`/dashboard/users/profile/${id}`);
 		}
 	}, [isSuccess, isDelSuccess, navigate]);
@@ -67,11 +70,8 @@ const EditUserForm = ({ user }) => {
 	};
 
 	return (
-		<>
-			<h2>EditUserForm</h2>
-			<div>
-				<button onClick={handleDelete}>Delete User</button>
-			</div>
+		<div className="edit-user-form-page">
+			<h2 className="edit-user-form-page--header">EditUserForm</h2>
 			<form className="edit-user-form" onSubmit={handleSubmit}>
 				<div className="edit-user-form__input">
 					<label htmlFor="username-input">Username: </label>
@@ -93,12 +93,12 @@ const EditUserForm = ({ user }) => {
 					<input id="lastName-input" value={lastName} type="text" onChange={(e) => setLastName(e.target.value)} />
 				</div>
 
-				<div className="edit-user-form__input" hidden={role !== ROLES.Freelancer}>
+				<div className="edit-user-form__input" style={{ display: role !== ROLES.Freelancer ? "none" : "block" }}>
 					<label htmlFor="skills-input">Skills: </label>
 					<input id="skills-input" value={skills} type="text" onChange={(e) => setSkills(e.target.value)} />
 				</div>
 
-				<div className="edit-user-form__input" hidden={role !== ROLES.Admin}>
+				<div className="edit-user-form__input" style={{ display: role !== ROLES.Admin ? "none" : "block" }}>
 					<label htmlFor="role-input">Role: </label>
 					<select id="role-input" value={role} onChange={(e) => setRole(e.target.value)}>
 						<option value="">-- Select --</option>
@@ -108,11 +108,16 @@ const EditUserForm = ({ user }) => {
 					</select>
 				</div>
 
-				<div className="btn">
-					<button type="submit">Save</button>
+				<div className="edit-user-form__buttons">
+					<button type="submit" className="btn">
+						Save
+					</button>
+					<button onClick={handleDelete} className="btn btn--delete">
+						Delete User
+					</button>
 				</div>
 			</form>
-		</>
+		</div>
 	);
 };
 

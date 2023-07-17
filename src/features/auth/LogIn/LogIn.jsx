@@ -33,12 +33,16 @@ const LogIn = () => {
 			if (!err.status) {
 				// the only time 'err' will have no status is if there was no server response.
 				console.log("No Server Response");
+				alert("No Server Response");
 			} else if (err.status === 400) {
 				console.log("Missing Username or Password");
+				alert("Missing Username or Password");
 			} else if (err.status === 401) {
-				console.log("Unauthorized");
+				// console.log("Unauthorized");
+				alert("Unauthorized");
 			} else {
-				console.log(err.data?.message);
+				// console.log(err.data?.message);
+				alert(err.data?.message);
 			}
 		}
 	};

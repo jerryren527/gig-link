@@ -49,7 +49,7 @@ const UserProfile = () => {
 	const [client, setClient] = useState(id);
 	const [freelancer, setFreelancer] = useState(userId);
 	const [review, setReview] = useState("");
-	const [rating, setRating] = useState("");
+	const [rating, setRating] = useState(0);
 
 	if (reviews) {
 		console.log("reviews", reviews);
@@ -258,8 +258,13 @@ const UserProfile = () => {
 				<p>&nbsp;</p>
 			)}
 			{role === ROLES.Client && profileUser?.role === ROLES.Freelancer && (
-				<NewRequestForm client={id} freelancer={profileUser?.id} refetchRequests={refetchRequests} />
+				<Link className="link-btn" to={`../../requests/new/${profileUser.id}`}>
+					Make a New Request
+				</Link>
 			)}
+			{/* {role === ROLES.Client && profileUser?.role === ROLES.Freelancer && (
+				<NewRequestForm client={id} freelancer={profileUser?.id} refetchRequests={refetchRequests} />
+			)} */}
 		</div>
 	);
 };

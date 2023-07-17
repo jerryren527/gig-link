@@ -4,6 +4,7 @@ import { selectMessageById, useGetMessagesQuery } from "../messages/messagesApiS
 import { selectUserById, useDeleteMessageMutation } from "../users/usersApiSlice";
 import useAuth from "../../hooks/useAuth";
 import { memo } from "react";
+import { formatDateForInput, formatDateTime } from "../../config/utils";
 
 const Messages = ({ messages }) => {
 	// use RTK Query generated hooks instead of generated selectors. selectors are selecting nothing sometimes.
@@ -22,13 +23,20 @@ const Messages = ({ messages }) => {
 				// const message = useSelector(state => selectMessageById(state, id))
 				const message = data?.entities[id];
 				return (
-					<div className="message-container">
-						<p>{message?.title}</p>
-						<p>{message?.body}</p>
-						<p>{message?.senderUsername}</p>
-						<p>{message?.recipientUsername}</p>
-						<p>{message?.createdAt}</p>
-						<hr />
+					<div className="message">
+						<p>
+							<b>{message?.title}</b>
+						</p>
+						<p>
+							<span>{message?.body}</span>
+						</p>
+						<p>
+							From: <span className="message-body">{message?.senderUsername}</span>
+						</p>
+						<p>
+							To: <span className="message-body">{message?.recipientUsername}</span>
+						</p>
+						<p>{formatDateTime(message?.createdAt)}</p>
 					</div>
 				);
 			});
