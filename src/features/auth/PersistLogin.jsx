@@ -8,6 +8,7 @@ import React from "react";
 
 const PersistLogin = () => {
 	const token = useSelector(selectCurrentToken);
+	console.log("🚀 ~ file: PersistLogin.jsx:11 ~ PersistLogin ~ token:", token);
 	const effectRan = useRef(false);
 
 	const [trueSuccess, setTrueSuccess] = useState(false);
@@ -22,6 +23,7 @@ const PersistLogin = () => {
 					await refresh();
 
 					setTrueSuccess(true);
+					console.log("success");
 				} catch (err) {
 					console.error(err);
 				}
