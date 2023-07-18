@@ -75,6 +75,9 @@ const EditJobForm = () => {
 			setStatus("");
 			navigate("/dashboard/jobs");
 		}
+		if (isError) {
+			alert(error?.data?.message);
+		}
 	}, [isSuccess, isError, error]);
 
 	if (!job) {

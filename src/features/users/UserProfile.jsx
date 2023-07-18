@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-import { useGetUsersQuery } from "./usersApiSlice";
+import { useDeleteUserMutation, useGetUsersQuery } from "./usersApiSlice";
 import { ROLES } from "../../config/constants";
 import { useAddReviewMutation, useDeleteReviewMutation, useGetReviewsQuery } from "../reviews/reviewsApiSlice";
 import { useAddRequestMutation, useGetRequestsQuery } from "../requests/requestsApiSlice";
@@ -45,11 +45,13 @@ const UserProfile = () => {
 	const [addRequest, { isLoading: isAddRequestLoading }] = useAddRequestMutation();
 	const [addReview, { isLoading: isAddReviewLoading }] = useAddReviewMutation();
 	const [deleteReview, { isLoading: isDeleteReviewLoading }] = useDeleteReviewMutation();
+	const [deleteUser, { isSuccess: isDelSuccess, isError: isDelError, error: delError }] = useDeleteUserMutation();
 
 	const [client, setClient] = useState(id);
 	const [freelancer, setFreelancer] = useState(userId);
 	const [review, setReview] = useState("");
 	const [rating, setRating] = useState(0);
+	const navigate = useNavigate();
 
 	if (reviews) {
 		console.log("reviews", reviews);
@@ -69,6 +71,18 @@ const UserProfile = () => {
 		await deleteReview({ reviewId });
 		refetch();
 		refetchUsers();
+	};
+
+	const handleDeleteUser = async (profileUser) => {
+		try {
+			console.log("deleted user");
+			await deleteUser({ id: profileUser?.id });
+
+			alert(`${profileUser?.username} deleted permanently`);
+			navigate("/dashboard/users");
+		} catch (err) {
+			console.log(err);
+		}
 	};
 
 	// const user = users?.entities[userId];
@@ -129,15 +143,11 @@ const UserProfile = () => {
 		);
 	}
 
-	const handleDelteUser = () => {
-		console.log("deleted user!");
-	};
-
 	return (
 		<div className="user-profile-container">
 			<h2>{profileUser?.username}'s Profile</h2>
 			<div hidden={role !== ROLES.Admin}>
-				<button className="btn--delete" onClick={handleDelteUser}>
+				<button className="btn btn--delete" onClick={() => handleDeleteUser(profileUser)}>
 					Delete User
 				</button>
 			</div>
