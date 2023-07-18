@@ -17,15 +17,13 @@ const UserList = () => {
 		isError,
 		error,
 	} = useGetUsersQuery(undefined, {
-		pollingInterval: 30000, // 60 seconds requery the data.
-		refetchOnFocus: true, // if re-focusing on browser window, refetch data
-		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
+		pollingInterval: 30000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
 	});
-	console.log("🚀 ~ file: UsersList.jsx:5 ~ UserList ~ users:", users);
 
 	let filteredUsers;
-	// Client will only see freelancers
-	// Freelancers and Admin can see clients and freelancers
+
 	if (role === ROLES.Client) {
 		filteredUsers = users?.ids.filter((id) => users.entities[id].role === ROLES.Freelancer);
 	} else if (role === ROLES.Freelancer) {
@@ -36,7 +34,6 @@ const UserList = () => {
 		filteredUsers = users?.ids;
 	}
 
-	// filter by search Input
 	if (searchInput.length > 0) {
 		filteredUsers = filteredUsers?.filter((userId) => users?.entities[userId].username.match(searchInput));
 	}
@@ -84,8 +81,8 @@ const UserList = () => {
 
 								return (
 									user && (
-										<tr>
-											<td key={user.id}>
+										<tr key={user.id}>
+											<td>
 												<Link to={`profile/${user.id}`} className={"profile-link"}>
 													{user.username}
 												</Link>

@@ -1,4 +1,4 @@
-import { createSelector, createEntityAdapter } from "@reduxjs/toolkit"; // createEntityAdapter simplifies working with normalized data in the Redux store.
+import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "../../app/api/apiSlice";
 
 const proposalsAdapter = createEntityAdapter({});
@@ -9,7 +9,7 @@ export const proposalsApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getProposals: builder.query({
 			query: () => ({
-				url: "/proposals", // define the url endpoint
+				url: "/proposals",
 				validateStatus: (response, result) => {
 					return response.status === 200 && !result.isError;
 				},

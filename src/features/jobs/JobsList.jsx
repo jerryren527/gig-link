@@ -1,50 +1,24 @@
 import React from "react";
-import { selectAllJobs, useDeleteJobMutation, useGetJobsQuery, useUpdateJobStatusMutation } from "./jobsApiSlice";
-import { useSelector } from "react-redux";
-import NewJobForm from "./NewJobForm";
+import { useGetJobsQuery, useUpdateJobStatusMutation } from "./jobsApiSlice";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { JOB_STATUSES, ROLES } from "../../config/constants";
-import {
-	useAddProposalMutation,
-	useDeleteProposalMutation,
-	useGetProposalsQuery,
-} from "../proposals/proposalsApiSlice";
+import { useAddProposalMutation, useDeleteProposalMutation } from "../proposals/proposalsApiSlice";
 import useTitle from "../../hooks/useTitle";
 
 const JobsList = () => {
 	useTitle(`Gig-Link | Jobs`);
-	// const jobs = useSelector(selectAllJobs)
-	const { id: userId, username, role } = useAuth();
+	const { username, role } = useAuth();
 
-	const {
-		data: jobs,
-		isLoading,
-		isSuccess,
-		isError,
-		error,
-		refetch,
-	} = useGetJobsQuery(undefined, {
-		pollingInterval: 15000, // 30 seconds requery the data.
-		refetchOnFocus: true, // if re-focusing on browser window, refetch data
-		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
+	const { data: jobs, refetch } = useGetJobsQuery(undefined, {
+		pollingInterval: 15000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
 	});
 
-	const {
-		data: proposals,
-		isLoading: isProposalLoading,
-		isSuccess: isProposalSuccess,
-		isError: isProposalError,
-		error: proposalError,
-	} = useGetProposalsQuery(undefined, {
-		pollingInterval: 15000, // 30 seconds requery the data.
-		refetchOnFocus: true, // if re-focusing on browser window, refetch data
-		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
-	});
-
-	const [addProposal, { isLoading: isAddLoading }] = useAddProposalMutation();
-	const [deleteProposal, { isLoading: isDeleteLoading }] = useDeleteProposalMutation();
-	const [updateJobStatus, { isLoading: isJobStatusLoading }] = useUpdateJobStatusMutation();
+	const [addProposal] = useAddProposalMutation();
+	const [deleteProposal] = useDeleteProposalMutation();
+	const [updateJobStatus] = useUpdateJobStatusMutation();
 
 	if (!jobs) {
 		return <h2>Loading...</h2>;
@@ -73,26 +47,17 @@ const JobsList = () => {
 		myJobs = jobs?.ids.filter((id) => jobs.entities[id].status === JOB_STATUSES.Pending);
 	}
 
-	console.log("myJobs", myJobs);
-
 	const handleAddProposal = async (jobId, freelancerUsername) => {
-		console.log("🚀 ~ file: JobsList.jsx:75 ~ handleAddProposal ~ freelancerUsername:", freelancerUsername);
-		console.log("🚀 ~ file: JobsList.jsx:75 ~ handleAddProposal ~ jobId:", jobId);
-		console.log("handleAddProposal clicked!");
 		await addProposal({ jobId, freelancerUsername: freelancerUsername });
 		refetch();
 	};
 
 	const handleDeleteProposal = async (jobId, freelancerUsername) => {
-		console.log("🚀 ~ file: JobsList.jsx:82 ~ handleDeleteProposal ~ freelancerUsername:", freelancerUsername);
-		console.log("🚀 ~ file: JobsList.jsx:82 ~ handleDeleteProposal ~ jobId:", jobId);
-		console.log("handleDeleteProposal clicked!");
 		await deleteProposal({ jobId, freelancerUsername: freelancerUsername });
 		refetch();
 	};
 
 	const handleUpdateStatus = async (jobId, status) => {
-		console.log("marking as", status);
 		await updateJobStatus({ jobId, status });
 		refetch();
 	};

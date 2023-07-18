@@ -1,17 +1,13 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { selectMessageById, useGetMessagesQuery } from "../messages/messagesApiSlice";
-import { selectUserById, useDeleteMessageMutation } from "../users/usersApiSlice";
-import useAuth from "../../hooks/useAuth";
+import { useGetMessagesQuery } from "../messages/messagesApiSlice";
 import { memo } from "react";
-import { formatDateForInput, formatDateTime } from "../../config/utils";
+import { formatDateTime } from "../../config/utils";
 
 const Messages = ({ messages }) => {
-	// use RTK Query generated hooks instead of generated selectors. selectors are selecting nothing sometimes.
-	const { data, isLoading, isSuccess, isError, error, refetch } = useGetMessagesQuery(undefined, {
+	const { data } = useGetMessagesQuery(undefined, {
 		pollingInterval: 15000,
-		refetchOnFocus: true, // if re-focusing on browser window, refetch data
-		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted);
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
 	});
 
 	let content;
@@ -20,10 +16,9 @@ const Messages = ({ messages }) => {
 			content = <p>Nothing available here...</p>;
 		} else {
 			content = messages.map((id) => {
-				// const message = useSelector(state => selectMessageById(state, id))
 				const message = data?.entities[id];
 				return (
-					<div className="message">
+					<div className="message" key={id}>
 						<p>
 							<b>{message?.title}</b>
 						</p>
@@ -46,6 +41,5 @@ const Messages = ({ messages }) => {
 	return <div>{content}</div>;
 };
 
-// Create a memoized Note. This Note component will only re-render if there are any changes to the data -- if the prop passed into it changes.
 const memoizedMessages = memo(Messages);
 export default memoizedMessages;

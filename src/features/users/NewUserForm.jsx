@@ -102,5 +102,3 @@ const NewUserForm = () => {
 };
 
 export default NewUserForm;
-
-// const { username, password, firstName, lastName, role } = req.body

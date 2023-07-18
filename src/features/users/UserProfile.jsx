@@ -4,27 +4,19 @@ import useAuth from "../../hooks/useAuth";
 import { useDeleteUserMutation, useGetUsersQuery } from "./usersApiSlice";
 import { ROLES } from "../../config/constants";
 import { useAddReviewMutation, useDeleteReviewMutation, useGetReviewsQuery } from "../reviews/reviewsApiSlice";
-import { useAddRequestMutation, useGetRequestsQuery } from "../requests/requestsApiSlice";
-import NewRequestForm from "../requests/NewRequestForm";
+import { useGetRequestsQuery } from "../requests/requestsApiSlice";
 import useTitle from "../../hooks/useTitle";
 import Rating from "../../components/Rating";
 import NewReviewForm from "../../components/NewReviewForm";
 import { formatDecimal } from "../../config/utils";
 
 const UserProfile = () => {
-	const { userId } = useParams(); // profile user id
-	const { id, username, role } = useAuth(); // logged in user
+	const { userId } = useParams();
+	const { id, username, role } = useAuth();
 
 	useTitle(`Profile | ${username}`);
 
-	const {
-		data: users,
-		isLoading,
-		isSuccess,
-		isError,
-		error,
-		refetch: refetchUsers,
-	} = useGetUsersQuery(undefined, {
+	const { data: users, refetch: refetchUsers } = useGetUsersQuery(undefined, {
 		pollingInterval: 30000,
 		refetchOnFocus: true,
 		refetchOnMountOrArgChange: true,
@@ -42,20 +34,15 @@ const UserProfile = () => {
 		refetchOnMountOrArgChange: true,
 	});
 
-	const [addRequest, { isLoading: isAddRequestLoading }] = useAddRequestMutation();
-	const [addReview, { isLoading: isAddReviewLoading }] = useAddReviewMutation();
-	const [deleteReview, { isLoading: isDeleteReviewLoading }] = useDeleteReviewMutation();
-	const [deleteUser, { isSuccess: isDelSuccess, isError: isDelError, error: delError }] = useDeleteUserMutation();
+	const [addReview] = useAddReviewMutation();
+	const [deleteReview] = useDeleteReviewMutation();
+	const [deleteUser] = useDeleteUserMutation();
 
 	const [client, setClient] = useState(id);
 	const [freelancer, setFreelancer] = useState(userId);
 	const [review, setReview] = useState("");
 	const [rating, setRating] = useState(0);
 	const navigate = useNavigate();
-
-	if (reviews) {
-		console.log("reviews", reviews);
-	}
 
 	const handleAddReview = async (e) => {
 		e.preventDefault();
@@ -66,8 +53,6 @@ const UserProfile = () => {
 	};
 
 	const handleDeleteReview = async (reviewId) => {
-		console.log("delete review clicked! ");
-		console.log("🚀 ~ file: UserProfile.jsx:53 ~ handleDeleteReview ~ reviewId:", reviewId);
 		await deleteReview({ reviewId });
 		refetch();
 		refetchUsers();
@@ -85,25 +70,18 @@ const UserProfile = () => {
 		}
 	};
 
-	// const user = users?.entities[userId];
-
-	// // ids, entities
 	const profileUser = users?.entities[userId];
 	const loggedInUser = users?.entities[id];
-	console.log("🚀 ~ file: UserProfile.jsx:61 ~ UserProfile ~ profileUser:", profileUser);
-	console.log("🚀 ~ file: UserProfile.jsx:70 ~ UserProfile ~ loggedInUser:", loggedInUser);
 
-	// if logged in User has not added a review for freelancer, show Add Review button
 	let reviewContainer;
 	let loggedInUserRequestForFreelancer;
 	if (role === ROLES.Client && profileUser?.role === ROLES.Freelancer) {
-		// if logged in User has already added a review for freelancer, show Remove Review button
 		const freelancerReviewId = reviews?.ids.find((reviewId) => {
 			const review = reviews?.entities[reviewId];
-			console.log("🚀 ~ file: UserProfile.jsx:52 ~ freelancerReview ~ review:", review);
+
 			return review.client === id && review.freelancer === userId;
 		});
-		console.log("🚀 ~ file: UserProfile.jsx:87 ~ freelancerReviewId ~ freelancerReviewId:", freelancerReviewId);
+
 		if (!freelancerReviewId) {
 			reviewContainer = (
 				<>
@@ -117,12 +95,8 @@ const UserProfile = () => {
 					/>
 				</>
 			);
-
-			// Logged in User is a client, profile user is a freelancer. Check profileUser.recievedRequests and match with loggedInUser.postedRequests
-			// clientRequestForFreelancer =
 		} else {
 			const review = reviews?.entities[freelancerReviewId];
-			console.log("🚀 ~ file: UserProfile.jsx:120 ~ UserProfile ~ review:", review);
 
 			reviewContainer = (
 				<>
@@ -132,14 +106,9 @@ const UserProfile = () => {
 				</>
 			);
 		}
-		console.log("profileUser.receivedRequests", profileUser.receivedRequests);
-		console.log("🚀 ~ file: UserProfile.jsx:143 ~ UserProfile ~ loggedInUser:", loggedInUser);
+
 		loggedInUserRequestForFreelancer = profileUser?.receivedRequests.filter((requestId) =>
 			loggedInUser?.postedRequests.includes(requestId)
-		);
-		console.log(
-			"🚀 ~ file: UserProfile.jsx:145 ~ UserProfile ~ loggedInUserRequestForFreelancer:",
-			loggedInUserRequestForFreelancer
 		);
 	}
 
@@ -203,7 +172,7 @@ const UserProfile = () => {
 						console.log("review", review);
 						const clientUsername = users?.entities[review?.client]?.username;
 						return (
-							<div className="freelancer-review">
+							<div className="freelancer-review" key={reviewId}>
 								{Array.from({ length: 5 }).map((_, index) => (
 									<>
 										{index < review?.rating ? (
@@ -272,9 +241,6 @@ const UserProfile = () => {
 					Make a New Request
 				</Link>
 			)}
-			{/* {role === ROLES.Client && profileUser?.role === ROLES.Freelancer && (
-				<NewRequestForm client={id} freelancer={profileUser?.id} refetchRequests={refetchRequests} />
-			)} */}
 		</div>
 	);
 };

@@ -37,7 +37,6 @@ const NewMessageForm = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("submitted");
 		await addNewMessage({ title, body, senderUsername, recipientUsername, date });
 	};
 

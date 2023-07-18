@@ -1,7 +1,7 @@
-import { createSelector, createEntityAdapter } from "@reduxjs/toolkit"; // createEntityAdapter simplifies working with normalized data in the Redux store.
+import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "../../app/api/apiSlice";
 
-const usersAdapter = createEntityAdapter({}); // empty object arg means provide no customization for RTK when it generates pre-defined reducer functions and selectors.
+const usersAdapter = createEntityAdapter({});
 
 const initialState = usersAdapter.getInitialState();
 
@@ -9,19 +9,17 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getUsers: builder.query({
 			query: () => ({
-				url: "/users", // define the url endpoint
+				url: "/users",
 				validateStatus: (response, result) => {
-					// Here, if the backend api encounters an unexpected error during this query, this validateStatus code will handle it here. Note that we are checking 'isError', which we explicitly set in the response object sent by our custom errorHandler middleware.
 					return response.status === 200 && !result.isError;
 				},
 			}),
 			transformResponse: (responseData) => {
-				// transforms raw api response before updating the store state.
 				const loadedUsers = responseData.map((user) => {
 					user.id = user._id;
 					return user;
 				});
-				return usersAdapter.setAll(initialState, loadedUsers); // update the state with loaded users
+				return usersAdapter.setAll(initialState, loadedUsers);
 			},
 			providerTags: (result, error, arg) => {
 				if (result?.ids) {
@@ -68,7 +66,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
 	}),
 });
 
-// RTK Query generated these reducer functions that will make queries/mutations to the API and set state.
 export const {
 	useGetUsersQuery,
 	useAddUserMutation,
@@ -77,15 +74,10 @@ export const {
 	useDeleteMessageMutation,
 } = usersApiSlice;
 
-export const selectUserResult = usersApiSlice.endpoints.getUsers.select(); // get query result
+export const selectUserResult = usersApiSlice.endpoints.getUsers.select();
 
-// create memoized selector by calling .createSelector() function
-const selectUsersData = createSelector(
-	selectUserResult,
-	(usersResult) => usersResult.data // .data refers to the normalized data that was fetched from the endpoint
-);
+const selectUsersData = createSelector(selectUserResult, (usersResult) => usersResult.data);
 
-// RTK Query generates these selectors when .getSelectors() is called
 export const {
 	selectAll: selectAllUsers,
 	selectById: selectUserById,

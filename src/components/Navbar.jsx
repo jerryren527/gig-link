@@ -6,12 +6,8 @@ import useAuth from "../hooks/useAuth";
 const Navbar = () => {
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
-	const { username, id, role } = useAuth();
-	console.log("🚀 ~ file: Navbar.jsx:10 ~ Navbar ~ role:", role);
-	console.log("🚀 ~ file: Navbar.jsx:10 ~ Navbar ~ id:", id);
-	console.log("🚀 ~ file: Navbar.jsx:10 ~ Navbar ~ username:", username);
-	// If at /inbox, do not show Inbox link
-	const atHome = pathname === `/`;
+	const { username } = useAuth();
+
 	const atInbox = pathname === `/inbox`;
 	const atLogIn = pathname === `/login`;
 	const atSignUp = pathname === `/signup`;
@@ -32,7 +28,6 @@ const Navbar = () => {
 		return <p>Error: {error.data?.message}</p>;
 	}
 
-	console.log("🚀 ~ file: Navbar.jsx:10 ~ Navbar ~ atInbox:", atInbox);
 	return (
 		<>
 			<div className="navbar">

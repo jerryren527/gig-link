@@ -1,4 +1,4 @@
-import { createSelector, createEntityAdapter } from "@reduxjs/toolkit"; // createEntityAdapter simplifies working with normalized data in the Redux store.
+import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "../../app/api/apiSlice";
 
 const messagesAdapter = createEntityAdapter({});
@@ -9,18 +9,17 @@ export const messagesApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getMessages: builder.query({
 			query: () => ({
-				url: "/messages", // define the url endpoint
+				url: "/messages",
 				validateStatus: (response, result) => {
 					return response.status === 200 && !result.isError;
 				},
 			}),
 			transformResponse: (responseData) => {
-				// transforms raw api response before updating the store state.
 				const loadedMessagess = responseData.map((message) => {
 					message.id = message._id;
 					return message;
 				});
-				return messagesAdapter.setAll(initialState, loadedMessagess); // update the state with loaded messagess
+				return messagesAdapter.setAll(initialState, loadedMessagess);
 			},
 			providerTags: (result, error, arg) => {
 				if (result?.ids) {

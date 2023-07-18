@@ -7,28 +7,21 @@ import useTitle from "../../hooks/useTitle";
 
 const RequestList = () => {
 	useTitle(`Gig-Link | Requests`);
-	const { id, username, role } = useAuth(); // logged in user. Must be Freelancer
+	const { id, role } = useAuth();
 
-	const {
-		data: users,
-		isLoading,
-		isSuccess,
-		isError,
-		error,
-		refetch,
-	} = useGetUsersQuery(undefined, {
-		pollingInterval: 30000, // 60 seconds requery the data.
-		refetchOnFocus: true, // if re-focusing on browser window, refetch data
-		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
+	const { data: users, refetch } = useGetUsersQuery(undefined, {
+		pollingInterval: 30000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
 	});
 
 	const { data: requests, refetch: refetchRequests } = useGetRequestsQuery(undefined, {
-		pollingInterval: 30000, // 60 seconds requery the data.
-		refetchOnFocus: true, // if re-focusing on browser window, refetch data
-		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
+		pollingInterval: 30000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
 	});
 
-	const [updateRequestStatus, { loading: loadingUpdateRequestStatus }] = useUpdateRequestStatusMutation();
+	const [updateRequestStatus] = useUpdateRequestStatusMutation();
 
 	let myRequests;
 	let header;
@@ -40,12 +33,7 @@ const RequestList = () => {
 		header = "Your Posted Job Requests";
 	}
 
-	console.log("🚀 ~ file: RequestList.jsx:19 ~ RequestList ~ myRequests:", myRequests);
-
 	const handleEditStatus = async (requestId, status) => {
-		console.log("edit clicked!");
-		console.log("🚀 ~ file: RequestList.jsx:36 ~ handleEditStatus ~ status:", status);
-		console.log("🚀 ~ file: RequestList.jsx:36 ~ handleEditStatus ~ requestId:", requestId);
 		await updateRequestStatus({ requestId, status });
 		refetchRequests();
 		refetch();

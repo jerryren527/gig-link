@@ -1,11 +1,6 @@
 import React, { memo } from "react";
 
 const NewReviewForm = ({ handleAddReview, review, setReview, rating, setRating }) => {
-	console.log("🚀 ~ file: NewReviewForm.jsx:4 ~ NewReviewForm ~ setRating:", setRating);
-	console.log("🚀 ~ file: NewReviewForm.jsx:4 ~ NewReviewForm ~ rating:", rating);
-	console.log("🚀 ~ file: NewReviewForm.jsx:4 ~ NewReviewForm ~ typeof rating:", typeof rating);
-	console.log("🚀 ~ file: NewReviewForm.jsx:4 ~ NewReviewForm ~ setReview:", setReview);
-	console.log("🚀 ~ file: NewReviewForm.jsx:4 ~ NewReviewForm ~ handleAddReview, review:", handleAddReview, review);
 	return (
 		<form onSubmit={handleAddReview} className="review-form">
 			<div className="review-form__input">

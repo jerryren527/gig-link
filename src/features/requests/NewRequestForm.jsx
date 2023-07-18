@@ -6,8 +6,6 @@ import useAuth from "../../hooks/useAuth";
 
 const NewRequestForm = () => {
 	useTitle(`Gig-Link | New Request`);
-	// console.log("🚀 ~ file: NewRequestForm.jsx:4 ~ NewRequestForm ~ freelancer:", freelancer);
-	// console.log("🚀 ~ file: NewRequestForm.jsx:4 ~ NewRequestForm ~ client:", client);
 
 	const { freelancerId } = useParams();
 	const { id, username } = useAuth();
@@ -25,7 +23,7 @@ const NewRequestForm = () => {
 			setTitle("");
 			setDescription("");
 			setPrice("");
-			// refetchRequests();
+
 			navigate(`/dashboard/users/profile/${freelancerId}`);
 		}
 		if (isError) {
@@ -35,7 +33,6 @@ const NewRequestForm = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("submitted!");
 		await addNewRequest({ client: id, freelancer: freelancerId, title, description, price });
 	};
 

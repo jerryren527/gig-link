@@ -12,13 +12,9 @@ const SignUp = () => {
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 
-	const [addUser, { isLoading, isSuccess, isError, error }] = useAddUserMutation();
+	const [addUser, { isSuccess, isError, error }] = useAddUserMutation();
 
 	const navigate = useNavigate();
-
-	// if (isLoading) {
-	// 	return <p>Creating new user...</p>;
-	// }
 
 	useEffect(() => {
 		if (isSuccess) {
@@ -36,7 +32,6 @@ const SignUp = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("submitted");
 		await addUser({ username, password, role, firstName, lastName });
 	};
 	return (

@@ -8,30 +8,19 @@ import { PROPOSAL_STATUSES, JOB_STATUSES } from "../../config/constants";
 
 const ProposalsList = () => {
 	useTitle(`Gig-Link | Proposals`);
-	const { id, username, role } = useAuth();
+	const { username } = useAuth();
 
-	const {
-		data: proposals,
-		isLoading,
-		isSuccess,
-		isError,
-		error,
-		refetch,
-	} = useGetProposalsQuery(undefined, {
-		pollingInterval: 30000, // 30 seconds requery the data.
-		refetchOnFocus: true, // if re-focusing on browser window, refetch data
-		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
+	const { data: proposals } = useGetProposalsQuery(undefined, {
+		pollingInterval: 30000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
 	});
 
 	const { data: jobs } = useGetJobsQuery(undefined, {
-		pollingInterval: 30000, // 30 seconds requery the data.
-		refetchOnFocus: true, // if re-focusing on browser window, refetch data
-		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
+		pollingInterval: 30000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
 	});
-
-	// if (proposals?.ids.length === 0) {
-	// 	return <h2>Nothing to see here...</h2>;
-	// }
 
 	const myProposals = [];
 
@@ -41,9 +30,6 @@ const ProposalsList = () => {
 			myProposals.push(proposal);
 		}
 	});
-
-	console.log(proposals);
-	console.log("🚀 ~ file: ProposalsList.jsx:29 ~ ProposalsList ~ myProposals:", myProposals);
 
 	return (
 		<div className="proposals-page">
@@ -61,7 +47,7 @@ const ProposalsList = () => {
 					</thead>
 					<tbody>
 						{myProposals.map((item, index) => (
-							<tr className="proposal">
+							<tr className="proposal" key={index}>
 								<td>{item.jobId}</td>
 								<td>{jobs?.entities[item?.jobId].title}</td>
 								<td>{jobs?.entities[item?.jobId].description}</td>

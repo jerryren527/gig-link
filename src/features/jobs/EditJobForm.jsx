@@ -12,7 +12,6 @@ const EditJobForm = () => {
 	useTitle(`Gig-Link | Edit Job`);
 	const { jobId } = useParams();
 
-	// const message = useSelector(state => selectMessageById(state, id))
 	const {
 		data: jobs,
 		isLoading: isGetJobsLoading,
@@ -21,11 +20,11 @@ const EditJobForm = () => {
 		error: getJobsError,
 		refetch,
 	} = useGetJobsQuery(undefined, {
-		pollingInterval: 15000, // 30 seconds requery the data.
-		refetchOnFocus: true, // if re-focusing on browser window, refetch data
-		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
+		pollingInterval: 15000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
 	});
-	// const job = useSelector((state) => selectJobById(state, jobId));
+
 	const job = jobs?.entities[jobId];
 
 	const [title, setTitle] = useState(job?.title);
@@ -41,15 +40,14 @@ const EditJobForm = () => {
 
 	const navigate = useNavigate();
 
-	const [updateJob, { isLoading, isSuccess, isError, error }] = useUpdateJobMutation();
+	const [updateJob, { isSuccess, isError, error }] = useUpdateJobMutation();
 
 	const { data: users, refetch: refetchUsers } = useGetUsersQuery(undefined, {
 		pollingInterval: 15000,
-		refetchOnFocus: true, // if re-focusing on browser window, refetch data
-		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
 	});
 
-	// This way will avoid the "more hooks during previous render" error message
 	useEffect(() => {
 		setTitle(job?.title);
 		setDescription(job?.description);
@@ -86,9 +84,6 @@ const EditJobForm = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("submitted");
-		console.log("🚀 ~ file: EditJobForm.jsx:70 ~ handleSubmit ~ proposals:", proposals);
-		console.log("🚀 ~ file: EditJobForm.jsx:73 ~ handleSubmit ~ freelancerUsername:", freelancerUsername);
 
 		const newStatus = freelancerUsername ? JOB_STATUSES.Accepted : status;
 
@@ -109,26 +104,19 @@ const EditJobForm = () => {
 	};
 
 	const handleChange = (e) => {
-		console.log(e.target.value);
 		setFreelancerUsername(e.target.value);
 	};
 
 	const handleDateChange = (e, dateType) => {
-		console.log("date changed!");
-		console.log("e.target.value", e.target.value);
 		const selectedDate = new Date(e.target.value);
 		const adjustedDate = new Date(selectedDate.getTime() + timezoneOffset);
-		console.log("🚀 ~ file: EditJobForm.jsx:117 ~ () =? handleDateChange ~ adjustedDate:", adjustedDate);
 		if (dateType === "start") {
-			console.log("start");
 			setStartDate(adjustedDate);
 		} else {
-			console.log("end");
 			setDueDate(adjustedDate);
 		}
 	};
 
-	console.log("startDate", startDate);
 	return (
 		<div className="edit-job-form-page">
 			<h2 className="edit-job-form-page--header">Edit Job Form</h2>

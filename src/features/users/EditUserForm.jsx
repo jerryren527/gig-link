@@ -10,13 +10,11 @@ const EditUserForm = ({ user, refetch }) => {
 	const [password, setPassword] = useState("");
 	const [firstName, setFirstName] = useState(user.firstName);
 	const [lastName, setLastName] = useState(user.lastName);
-	// const [skills, setSkills] = useState(user.skills.length > 0 ? user.skills.join(", ") : "");
+
 	const [skills, setSkills] = useState(user.skills);
-	console.log("🚀 ~ file: EditUserForm.jsx:14 ~ EditUserForm ~ skills:", skills);
+
 	const [role, setRole] = useState(user.role);
 
-	console.log("🚀 ~ file: EditUserForm.jsx:13 ~ EditUserForm ~ skills:", skills);
-	console.log("🚀 ~ file: EditUserForm.jsx:13 ~ EditUserForm ~ typeof skills:", typeof skills);
 	const navigate = useNavigate();
 	const { id, username: loggedInUsername } = useAuth();
 
@@ -27,8 +25,6 @@ const EditUserForm = ({ user, refetch }) => {
 	const [sendLogout] = useSendLogoutMutation();
 
 	useEffect(() => {
-		console.log("isSuccess:", isSuccess);
-		console.log("isDelSuccess:", isDelSuccess);
 		if (isSuccess || isDelSuccess) {
 			setUsername("");
 			setPassword("");
@@ -45,7 +41,7 @@ const EditUserForm = ({ user, refetch }) => {
 		e.preventDefault();
 		try {
 			console.log("submitted");
-			// if password is provided
+
 			if (password) {
 				await updateUser({ id: user.id, username, firstName, lastName, skills, password, role });
 			} else {

@@ -11,30 +11,20 @@ const MyJobsList = () => {
 
 	const { data: users } = useGetUsersQuery(undefined, {
 		pollingInterval: 15000,
-		refetchOnFocus: true, // if re-focusing on browser window, refetch data
-		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
 	});
 	const user = users?.entities[userId];
-	console.log("🚀 ~ file: MyJobsList.jsx:11 ~ MyJobsList ~ user:", user);
 
-	const {
-		data: jobs,
-		isLoading,
-		isSuccess,
-		isError,
-		error,
-		refetch,
-	} = useGetJobsQuery(undefined, {
-		pollingInterval: 15000, // 30 seconds requery the data.
-		refetchOnFocus: true, // if re-focusing on browser window, refetch data
-		refetchOnMountOrArgChange: true, // refetch the data when component is re-mounted
+	const { data: jobs } = useGetJobsQuery(undefined, {
+		pollingInterval: 15000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
 	});
 
 	const myJobIds = jobs?.ids.filter((jobId) => user?.activeJobs.includes(jobId));
-	console.log("🚀 ~ file: MyJobsList.jsx:27 ~ MyJobsList ~ myJobIds:", myJobIds);
 
 	const myJobs = myJobIds?.map((myJobId) => jobs.entities[myJobId]);
-	console.log("🚀 ~ file: MyJobsList.jsx:30 ~ MyJobsList ~ myJobs:", myJobs);
 
 	return (
 		<div className="my-jobs-list-page">

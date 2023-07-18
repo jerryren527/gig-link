@@ -12,5 +12,4 @@ export const store = configureStore({
 	devTools: false,
 });
 
-// calling setupListeners() allows you to pass options when using RTK's generated hooks (e.g., useGetUsersQuery() hook)
 setupListeners(store.dispatch);

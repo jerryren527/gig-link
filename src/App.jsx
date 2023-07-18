@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
-import Navbar from "./components/Navbar";
 import SignUp from "./features/auth/SignUp";
 import LogIn from "./features/auth/LogIn";
 import Public from "./components/Public";
@@ -10,7 +9,6 @@ import Welcome from "./features/auth/Welcome";
 import Prefetch from "./features/auth/Prefetch";
 import NewUserForm from "./features/users/NewUserForm";
 import NewJobForm from "./features/jobs/NewJobForm";
-import "./css/styles.css";
 import NotFound from "./components/NotFound";
 import EditUser from "./features/users/EditUser";
 import JobsList from "./features/jobs/JobsList";
@@ -19,15 +17,14 @@ import Inbox from "./features/inbox/Inbox";
 import NewMessageForm from "./features/inbox/NewMessageForm";
 import EditJobForm from "./features/jobs/EditJobForm";
 import ProposalsList from "./features/proposals/ProposalsList";
-import ActiveJobsList from "./components/ActiveJobsList";
 import UserProfile from "./features/users/UserProfile";
-import ReviewsList from "./features/reviews/ReviewsList";
 import RequestList from "./features/requests/RequestList";
 import NewRequestForm from "./features/requests/NewRequestForm";
 import RequireAuth from "./features/auth/RequireAuth";
-import { ROLES } from "./config/constants";
 import MyJobsList from "./features/jobs/MyJobsList";
 import useTitle from "./hooks/useTitle";
+import { ROLES } from "./config/constants";
+import "./css/styles.css";
 
 function App() {
 	useTitle("Gig-Link | Homepage");

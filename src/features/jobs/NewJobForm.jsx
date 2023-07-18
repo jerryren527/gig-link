@@ -42,7 +42,6 @@ const NewJobForm = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("submitted");
 		await addNewJob({ title, description, clientUsername, skills, price, startDate, dueDate });
 	};
 
