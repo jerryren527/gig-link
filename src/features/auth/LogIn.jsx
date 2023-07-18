@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useLoginMutation } from "../authApiSlice";
-import { setCredentials } from "../authSlice";
-import useTitle from "../../../hooks/useTitle";
+import { useLoginMutation } from "./authApiSlice";
+import { setCredentials } from "./authSlice";
+import useTitle from "../../hooks/useTitle";
 
 const LogIn = () => {
 	useTitle("Gig-Link | Login");

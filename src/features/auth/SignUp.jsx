@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useAddUserMutation } from "../../users/usersApiSlice";
+import { useAddUserMutation } from "../users/usersApiSlice";
 import { useNavigate } from "react-router-dom";
-import { ROLES } from "../../../config/constants";
-import useTitle from "../../../hooks/useTitle";
+import { ROLES } from "../../config/constants";
+import useTitle from "../../hooks/useTitle";
 
 const SignUp = () => {
 	useTitle("Gig-Link | Sign Up");

@@ -11,6 +11,7 @@
 		"compile:sass": "node-sass ./src/sass/main.scss ./src/css/styles.css -w"
 	},
 	"dependencies": {
+		"@fvilers/disable-react-devtools": "^1.3.0",
 		"@reduxjs/toolkit": "^1.9.5",
 		"jwt-decode": "^3.1.2",
 		"react": "^18.2.0",

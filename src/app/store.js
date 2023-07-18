@@ -9,7 +9,7 @@ export const store = configureStore({
 		auth: authReducer,
 	},
 	middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(apiSlice.middleware),
-	devTools: true,
+	devTools: false,
 });
 
 // calling setupListeners() allows you to pass options when using RTK's generated hooks (e.g., useGetUsersQuery() hook)
