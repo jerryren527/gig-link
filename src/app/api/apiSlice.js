@@ -19,6 +19,26 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth = async (args, api, extraOptions) => {
 	let result = await baseQuery(args, api, extraOptions);
 
+	console.log("🚀 ~ file: apiSlice.js:21 ~ baseQueryWithReauth ~ result:", result);
+
+	// Handle 404
+	if (result?.error?.status === 404) {
+		// send refresh token to get new access token.
+		const refreshResult = await baseQuery("/auth/refresh", api, extraOptions);
+
+		if (refreshResult?.data) {
+			api.dispatch(setCredentials({ ...refreshResult.data }));
+
+			// retry original query with new access token stored in authorization header now.
+			result = await baseQuery(args, api, extraOptions);
+		} else {
+			if (refreshResult?.error?.status === 403) {
+				refreshResult.error.data.message = "Your login has expired. ";
+			}
+			return refreshResult;
+		}
+	}
+
 	// Handle 403 forbidden (acceess token expired)
 	if (result?.error?.status === 403) {
 		// send refresh token to get new access token.
@@ -42,6 +62,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
 	baseQuery: baseQueryWithReauth,
-	tagTypes: ["User", "Job"],
+	tagTypes: ["User", "Job", "Message", "Proposal", "Request", "Review"],
 	endpoints: (builder) => ({}),
 });
