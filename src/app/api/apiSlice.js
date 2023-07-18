@@ -3,7 +3,7 @@ import { setCredentials } from "../../features/auth/authSlice";
 
 // Each api request will include cookies and authorization header that includes
 const baseQuery = fetchBaseQuery({
-	baseUrl: "http://localhost:3500",
+	baseUrl: "https://gig-link-api.onrender.com",
 	credentials: "include",
 	// prepareHeaders is specific to fetchBaseQuery(). 1st arg is headers, representing the headers. 2nd arg is an api object specific to prepareHeaders. We destructure 'getState' from it. The logic in prepareHeaders is applied to every request that is sent.
 	prepareHeaders: (headers, { getState }) => {
