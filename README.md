@@ -4,6 +4,10 @@
 
 Gig Link is a full-stack web application that serves as a platform connecting freelancers and clients for project collaboration. Built using the MERN stack (**MongoDB**, **Express.js**, **React.js**, **Node.js**), **Redux**, **Redux Toolkit**, **RTK Query**, **react-router-dom**, and **Sass**, Gig Link provides a seamless and secure experience for users.
 
+## Backend Code GitHub Repository
+
+Check out the backend code that serves as the API that facilitates data management, user authentication, and various operations for the project [here](https://github.com/jerryren527/gig-link-api).
+
 ## Live Demo
 
 Check out the live demo of the project [here](https://gig-link.onrender.com).
